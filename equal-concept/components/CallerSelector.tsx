@@ -12,7 +12,7 @@ interface CallerSelectorProps {
 const iconsMap: Record<string, any> = {
   family: Heart,
   courier: Package,
-  pitch: CreditCard,
+  pitcher: CreditCard,
   client: User,
   stranger: WarningOctagon,
 };
