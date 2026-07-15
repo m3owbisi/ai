@@ -58,6 +58,8 @@ export function LiveTranscript({
       {/* Transcript Body */}
       <div
         ref={bodyRef}
+        role="log"
+        aria-live="polite"
         className="flex-1 p-5 overflow-y-auto flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/10"
       >
         {transcriptLines.length === 0 && !isTyping && (
