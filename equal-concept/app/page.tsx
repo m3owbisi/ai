@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { HeroCopy } from "@/components/HeroCopy";
 import { HeroCallStage } from "@/components/HeroCallStage";
 import { ScrollCue } from "@/components/ScrollCue";
+import { StickyCallStory } from "@/components/StickyCallStory";
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
       <SiteHeader />
 
       {/* Hero Viewport Container */}
-      <main className="flex-1 flex flex-col justify-center items-center w-full max-w-7xl mx-auto px-6 sm:px-8 py-24 md:py-32 relative z-10">
+      <main className="flex flex-col justify-center items-center w-full max-w-7xl mx-auto px-6 sm:px-8 pt-24 md:pt-32 pb-16 md:pb-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full mt-8 md:mt-12">
           {/* Headline and Copy */}
           <div className="lg:col-span-7 flex flex-col justify-center">
@@ -31,11 +32,14 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Floating Scroll indicator at bottom center */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
+        {/* Scroll indicator */}
+        <div className="mt-12 hidden md:block">
           <ScrollCue />
         </div>
       </main>
+
+      {/* Scroll 2 Call Showcase Story Section */}
+      <StickyCallStory />
     </div>
   );
 }
