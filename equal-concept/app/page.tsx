@@ -5,6 +5,9 @@ import { HeroCopy } from "@/components/HeroCopy";
 import { HeroCallStage } from "@/components/HeroCallStage";
 import { ScrollCue } from "@/components/ScrollCue";
 import { StickyCallStory } from "@/components/StickyCallStory";
+import { ValueScenes } from "@/components/ValueScenes";
+import { Reviews } from "@/components/Reviews";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function Home() {
   return (
@@ -40,6 +43,15 @@ export default function Home() {
 
       {/* Scroll 2 Call Showcase Story Section */}
       <StickyCallStory />
+
+      {/* Value Scenes reasons Section */}
+      <ValueScenes />
+
+      {/* Reviews testimonials Section */}
+      <Reviews />
+
+      {/* Global Footer */}
+      <SiteFooter />
     </div>
   );
 }
