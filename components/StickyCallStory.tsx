@@ -634,25 +634,25 @@ export function StickyCallStory() {
                 />
 
                 {/* Floating Transcript Ribbon overlay (AI Action Verdict Card) - floats in front of the phone */}
-                {layoutMode === "hero" && (
-                  <div
-                    id="verdict-card"
-                    className="absolute -bottom-6 -right-8 p-3 bg-surface-2/95 backdrop-blur border border-white/10 rounded-2xl shadow-[0_12px_24px_rgba(0,0,0,0.5)] z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none"
-                    style={{ transform: "translateZ(30px)" }}
-                  >
-                    <div className="flex items-center gap-1.5 text-[8.5px] font-mono text-accent-color uppercase tracking-wider">
-                      <Chats size={10} />
-                      <span>AI Action Verdict</span>
-                    </div>
-                    <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
-                      {scenario.summary.text}
-                    </p>
-                    <div className="pt-1.5 border-t border-white/5 flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
-                      <CheckCircle size={10} weight="fill" />
-                      <span>{scenario.summary.action}</span>
-                    </div>
+                <div
+                  id="verdict-card"
+                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-2/95 backdrop-blur border border-white/10 rounded-2xl shadow-[0_12px_24px_rgba(0,0,0,0.5)] z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
+                    layoutMode === "hero" ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                  style={{ transform: "translateZ(30px)" }}
+                >
+                  <div className="flex items-center gap-1.5 text-[8.5px] font-mono text-accent-color uppercase tracking-wider">
+                    <Chats size={10} />
+                    <span>AI Action Verdict</span>
                   </div>
-                )}
+                  <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
+                    {scenario.summary.text}
+                  </p>
+                  <div className="pt-1.5 border-t border-white/5 flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
+                    <CheckCircle size={10} weight="fill" />
+                    <span>{scenario.summary.action}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
