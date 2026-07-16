@@ -434,7 +434,7 @@ export function StickyCallStory() {
     return () => {
       mm.revert();
     };
-  }, { scope: containerRef });
+  });
 
   // Desktop click handlers: smoothly scrolls window to the target scenario segment
   const handleSelectScenario = (id: string) => {

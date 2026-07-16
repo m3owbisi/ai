@@ -55,7 +55,7 @@ export default function Home() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-12 hidden md:block">
+        <div id="hero-scroll-cue" className="mt-12 hidden md:block">
           <ScrollCue />
         </div>
       </main>
