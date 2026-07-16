@@ -1,13 +1,16 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "motion/react";
 import { AnnouncementChip } from "./AnnouncementChip";
 import { DownloadCTA } from "./DownloadCTA";
 import { TrustSignals } from "./TrustSignals";
+import VariableProximity from "./VariableProximity";
 
 export function HeroCopy() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="flex flex-col gap-6 text-left max-w-2xl z-10">
+    <div ref={containerRef} className="flex flex-col gap-6 text-left max-w-2xl z-10 relative">
       {/* Announcement Chip */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -25,7 +28,14 @@ export function HeroCopy() {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="block"
         >
-          Not all calls deserve
+          <VariableProximity
+            label="Not all calls deserve"
+            containerRef={containerRef}
+            radius={120}
+            falloff="linear"
+            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+            toFontVariationSettings="'wght' 900, 'opsz' 40"
+          />
         </motion.span>
         <motion.span
           initial={{ opacity: 0, y: 20 }}
@@ -33,7 +43,14 @@ export function HeroCopy() {
           transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className="relative inline-block text-accent-color drop-shadow-[0_0_12px_rgba(229,254,64,0.15)] group overflow-hidden"
         >
-          your attention.
+          <VariableProximity
+            label="your attention."
+            containerRef={containerRef}
+            radius={120}
+            falloff="linear"
+            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+            toFontVariationSettings="'wght' 900, 'opsz' 40"
+          />
         </motion.span>
       </h1>
 

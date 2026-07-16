@@ -35,7 +35,7 @@ export function SiteFooter() {
         {/* Brand alignment & copyright */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="flex flex-col gap-3">
-            <EqualLogo />
+            <EqualLogo variant="white" />
             <span className="inline-flex items-center gap-2 text-[10px] font-mono text-text-quiet uppercase tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-color shadow-[0_0_8px_var(--accent-glow)] animate-pulse" />
               Built in India

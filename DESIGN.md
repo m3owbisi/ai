@@ -82,7 +82,7 @@ The connected Figma node currently cannot be inspected because the authenticated
 | Text secondary | #A9B0A5 | Descriptions |
 | Text quiet | #737A71 | Meta labels |
 | Accent working | #E5FE40 | Temporary lime, derived from the supplied design reference |
-| Accent glow | rgba(229, 254, 64, 0.32) | Atmospheric light |
+| Accent glow | #e5fe4052 | Atmospheric light |
 | Danger | #FF5D5D | Decline or blocked call state |
 | Success | #66F29A | Allowed or completed call state |
 | Cream fallback | #F5F1E6 | Future light-mode canvas |

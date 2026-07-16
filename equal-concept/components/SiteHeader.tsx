@@ -25,7 +25,7 @@ export function SiteHeader() {
             : "max-w-7xl px-8 py-6 bg-transparent border-b border-white/5"
         }`}
       >
-        <EqualLogo />
+        <EqualLogo variant="white" />
 
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-tight">
           <a href="#what" className="text-text-secondary hover:text-text-primary transition-colors">

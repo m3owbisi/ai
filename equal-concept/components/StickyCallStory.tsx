@@ -1,9 +1,17 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { scenarios } from "@/data/call-scenarios";
 import { CallerSelector } from "./CallerSelector";
 import { DeviceFrame } from "./DeviceFrame";
 import { LiveTranscript } from "./LiveTranscript";
+import { Chats, CheckCircle } from "@phosphor-icons/react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const SCENARIOS_ORDER = ["pitcher", "family", "stranger", "client", "courier"];
 
 export function StickyCallStory() {
   const [activeId, setActiveId] = useState<string>("pitcher");
@@ -13,12 +21,25 @@ export function StickyCallStory() {
   const [showSummary, setShowSummary] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(true); // Muted by default per guidelines
+  
+  const [layoutMode, setLayoutMode] = useState<"hero" | "demo">("hero");
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const scrollTweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
 
   const audioCtxRef = useRef<AudioContext | null>(null);
   const timerRefs = useRef<NodeJS.Timeout[]>([]);
   const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const scenario = scenarios[activeId];
+
+  // Keep refs of current values to avoid redundant React state updates during scroll scrubbing
+  const lastActiveIdRef = useRef("");
+  const lastLinesCountRef = useRef(-1);
+  const lastShowSummaryRef = useRef(false);
+  const lastIsPlayingRef = useRef(false);
 
   // Initialize Web Audio API safely on first user gesture
   const initAudio = () => {
@@ -86,7 +107,7 @@ export function StickyCallStory() {
     } catch (e) {}
   };
 
-  // Stop script playback and clear all timers
+  // Stop script playback and clear all timers (Mobile fallback)
   const stopPlayback = () => {
     timerRefs.current.forEach((t) => clearTimeout(t));
     timerRefs.current = [];
@@ -98,7 +119,7 @@ export function StickyCallStory() {
     setIsTyping(false);
   };
 
-  // Reset script state to baseline
+  // Reset script state to baseline (Mobile fallback)
   const resetPlayback = () => {
     stopPlayback();
     setTranscriptLines([]);
@@ -106,7 +127,7 @@ export function StickyCallStory() {
     setCallDuration(0);
   };
 
-  // Playback choreography
+  // Playback choreography (Mobile fallback)
   const startPlayback = () => {
     resetPlayback();
     initAudio();
@@ -154,11 +175,378 @@ export function StickyCallStory() {
     timerRefs.current.push(summaryTimer);
   };
 
+  // Stop auto-scroll tween
+  const stopAutoScroll = () => {
+    if (scrollTweenRef.current) {
+      scrollTweenRef.current.kill();
+      scrollTweenRef.current = null;
+    }
+  };
+
+  // Cancel auto-scroll if user manually scrolls/touches
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      stopAutoScroll();
+    };
+    window.addEventListener("wheel", handleUserInteraction);
+    window.addEventListener("touchmove", handleUserInteraction);
+    window.addEventListener("mousedown", handleUserInteraction);
+    return () => {
+      window.removeEventListener("wheel", handleUserInteraction);
+      window.removeEventListener("touchmove", handleUserInteraction);
+      window.removeEventListener("mousedown", handleUserInteraction);
+    };
+  }, []);
+
+  // GSAP ScrollTrigger Setup
+  useGSAP(() => {
+    // Calculate 3D translation offset between Hero Orbit center and Demo center
+    const getDeltas = () => {
+      const heroEl = document.getElementById("hero-phone-placeholder");
+      const demoEl = document.getElementById("demo-phone-placeholder");
+      if (!heroEl || !demoEl) return { x: 0, y: 0 };
+
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+
+      const heroRect = heroEl.getBoundingClientRect();
+      const demoRect = demoEl.getBoundingClientRect();
+
+      const heroX = heroRect.left + scrollX + heroRect.width / 2;
+      const heroY = heroRect.top + scrollY + heroRect.height / 2;
+
+      const demoX = demoRect.left + scrollX + demoRect.width / 2;
+      const demoY = demoRect.top + scrollY + demoRect.height / 2;
+
+      return {
+        x: heroX - demoX,
+        y: heroY - demoY
+      };
+    };
+
+    const mm = gsap.matchMedia();
+
+    // Condition A: Desktop (With pinning and scroll flow)
+    mm.add({
+      isDesktop: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)"
+    }, (context) => {
+      setIsDesktop(true);
+
+      const deltas = getDeltas();
+      
+      // Initialize phone position in the Hero orbit (Larger scale + slanted rotation + 360deg spin buffer)
+      gsap.set(phoneRef.current, {
+        x: deltas.x,
+        y: deltas.y,
+        scale: 1.38,
+        rotateX: 24,
+        rotateY: -35,
+        rotateZ: -372,
+      });
+
+      // 1. Flight transition timeline (Scroll 1 -> Scroll 2)
+      const transitionTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "main",
+          start: "top top",
+          endTrigger: "#what",
+          end: "top top",
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (self.progress > 0.95) {
+              setLayoutMode("demo");
+            } else {
+              setLayoutMode("hero");
+            }
+          }
+        }
+      });
+
+      // Fade out scroll cue very quickly (first 10% scroll)
+      transitionTl.to("#hero-scroll-cue", {
+        opacity: 0,
+        y: -20,
+        pointerEvents: "none",
+        duration: 0.15,
+      }, 0);
+
+      // Fade out the verdict card early in the scroll
+      transitionTl.to("#verdict-card", {
+        opacity: 0,
+        scale: 0.8,
+        y: 15,
+        pointerEvents: "none",
+        duration: 0.25,
+      }, 0);
+
+      // Scroll-parallax shift for background waves
+      transitionTl.to("#bg-waves-wrapper", {
+        x: -120,
+        opacity: 0.45,
+        duration: 1.0,
+      }, 0);
+
+      transitionTl.to(phoneRef.current, {
+        x: 0,
+        y: 0,
+        scale: 1.0,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0,
+        ease: "power1.inOut",
+        duration: 1.0,
+      }, 0);
+
+      // Fade out Hero orbit stage during transition
+      gsap.to(".hero-orbit-stage", {
+        opacity: 0.15,
+        scrollTrigger: {
+          trigger: "main",
+          start: "center top",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+
+      // 3. Exit transition timeline (Scroll 2 -> Scroll 3 / Exit)
+      // Triggered when #what finishes pinning and starts scrolling away
+      const exitTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#what",
+          start: "bottom bottom",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+
+      exitTl.to(phoneRef.current, {
+        x: -250, // glide left
+        opacity: 0,
+        scale: 0.85,
+        rotateY: -20,
+        ease: "power1.in",
+      });
+
+      exitTl.to("#bg-waves-wrapper", {
+        x: -300, // shift waves further left on exit
+        opacity: 0,
+        ease: "power1.in",
+      }, 0);
+
+      // 2. Pinned Call Story timeline
+      ScrollTrigger.create({
+        id: "story-pin",
+        trigger: "#what",
+        start: "top top",
+        end: "+=2000",
+        pin: true,
+        scrub: true,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          const totalScenarios = SCENARIOS_ORDER.length;
+          const index = Math.min(totalScenarios - 1, Math.floor(p * totalScenarios));
+          const nextActiveId = SCENARIOS_ORDER[index];
+
+          // Calculate scenario segment progress (0 to 1)
+          const pBlock = (p * totalScenarios) - index;
+          const currentScenario = scenarios[nextActiveId];
+          const dialogueLines = currentScenario.dialogue;
+          const numLines = dialogueLines.length;
+
+          let nextIsPlaying = false;
+          let nextShowSummary = false;
+          let nextLines: any[] = [];
+          let nextDuration = 0;
+
+          if (pBlock < 0.15) {
+            nextIsPlaying = false;
+            nextShowSummary = false;
+            nextLines = [];
+            nextDuration = 0;
+          } else if (pBlock >= 0.15 && pBlock < 0.80) {
+            nextIsPlaying = true;
+            nextShowSummary = false;
+            const pDial = (pBlock - 0.15) / 0.65;
+            nextDuration = Math.floor(pDial * 15);
+            const visibleLinesCount = Math.floor(pDial * (numLines + 1));
+            nextLines = dialogueLines.slice(0, visibleLinesCount);
+          } else {
+            nextIsPlaying = false;
+            nextShowSummary = true;
+            nextLines = dialogueLines;
+            nextDuration = 15;
+          }
+
+          // Update states and handle sound triggers
+          if (nextActiveId !== lastActiveIdRef.current) {
+            lastActiveIdRef.current = nextActiveId;
+            setActiveId(nextActiveId);
+          }
+          if (nextIsPlaying !== lastIsPlayingRef.current) {
+            lastIsPlayingRef.current = nextIsPlaying;
+            setIsPlaying(nextIsPlaying);
+          }
+          if (nextShowSummary !== lastShowSummaryRef.current) {
+            lastShowSummaryRef.current = nextShowSummary;
+            setShowSummary(nextShowSummary);
+            if (nextShowSummary) {
+              playSummarySweep();
+            }
+          }
+          if (nextLines.length !== lastLinesCountRef.current) {
+            const prevCount = lastLinesCountRef.current;
+            lastLinesCountRef.current = nextLines.length;
+            setTranscriptLines(nextLines);
+
+            // Play synth beeps only on forward scrub reveals
+            if (nextLines.length > prevCount && prevCount >= 0 && !isMuted) {
+              const lastLine = nextLines[nextLines.length - 1];
+              if (lastLine.speaker === "equal") {
+                playSynthTone(580, 0.2, "sine");
+              } else {
+                playSynthTone(340, 0.3, "triangle");
+              }
+            }
+          }
+          setCallDuration(nextDuration);
+        }
+      });
+    });
+
+    // Condition B: Mobile / Reduced Motion (Static coordinates, normal playback)
+    mm.add({
+      isMobileOrReduced: "(max-width: 1023px), (prefers-reduced-motion: reduce)"
+    }, () => {
+      setIsDesktop(false);
+      setLayoutMode("demo");
+      gsap.set(phoneRef.current, {
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0,
+      });
+    });
+
+    return () => {
+      mm.revert();
+    };
+  }, { scope: containerRef });
+
+  // Desktop click handlers: smoothly scrolls window to the target scenario segment
+  const handleSelectScenario = (id: string) => {
+    if (!isDesktop) {
+      // Mobile fallback: switch scenario instantly
+      resetPlayback();
+      setActiveId(id);
+      return;
+    }
+
+    const trigger = ScrollTrigger.getById("story-pin");
+    if (!trigger) return;
+
+    stopAutoScroll();
+
+    const index = SCENARIOS_ORDER.indexOf(id);
+    if (index === -1) return;
+
+    const start = trigger.start;
+    const end = trigger.end;
+    const blockStart = start + (index / SCENARIOS_ORDER.length) * (end - start) + 15;
+
+    const scrollObj = { y: window.scrollY };
+    scrollTweenRef.current = gsap.to(scrollObj, {
+      y: blockStart,
+      duration: 0.8,
+      ease: "power2.out",
+      onUpdate: () => window.scrollTo(0, scrollObj.y),
+      onComplete: () => {
+        scrollTweenRef.current = null;
+      }
+    });
+  };
+
+  const handleDesktopAccept = () => {
+    const trigger = ScrollTrigger.getById("story-pin");
+    if (!trigger) return;
+
+    stopAutoScroll();
+
+    const index = SCENARIOS_ORDER.indexOf(activeId);
+    if (index === -1) return;
+
+    const start = trigger.start;
+    const end = trigger.end;
+    const blockStart = start + (index / SCENARIOS_ORDER.length) * (end - start) + 15;
+    const blockEnd = start + ((index + 0.78) / SCENARIOS_ORDER.length) * (end - start);
+
+    const scrollObj = { y: window.scrollY };
+    const tl = gsap.timeline();
+    scrollTweenRef.current = tl;
+
+    // Glide to starting block if not there
+    if (Math.abs(window.scrollY - blockStart) > 80) {
+      tl.to(scrollObj, {
+        y: blockStart,
+        duration: 0.4,
+        ease: "power2.out",
+        onUpdate: () => window.scrollTo(0, scrollObj.y),
+      });
+    }
+
+    // Scroll slowly to trigger dialogue sequence
+    tl.to(scrollObj, {
+      y: blockEnd,
+      duration: 8.0,
+      ease: "none",
+      onUpdate: () => window.scrollTo(0, scrollObj.y),
+      onComplete: () => {
+        scrollTweenRef.current = null;
+      }
+    });
+  };
+
+  const handleDesktopDecline = () => {
+    const trigger = ScrollTrigger.getById("story-pin");
+    if (!trigger) return;
+
+    stopAutoScroll();
+
+    const index = SCENARIOS_ORDER.indexOf(activeId);
+    if (index === -1) return;
+
+    const start = trigger.start;
+    const end = trigger.end;
+    const summaryPos = start + ((index + 0.85) / SCENARIOS_ORDER.length) * (end - start);
+
+    const scrollObj = { y: window.scrollY };
+    scrollTweenRef.current = gsap.to(scrollObj, {
+      y: summaryPos,
+      duration: 0.5,
+      ease: "power2.out",
+      onUpdate: () => window.scrollTo(0, scrollObj.y),
+      onComplete: () => {
+        scrollTweenRef.current = null;
+      }
+    });
+  };
+
   const handlePlayToggle = () => {
-    if (isPlaying) {
-      stopPlayback();
+    if (isDesktop) {
+      if (isPlaying) {
+        stopAutoScroll();
+      } else {
+        handleDesktopAccept();
+      }
     } else {
-      startPlayback();
+      if (isPlaying) {
+        stopPlayback();
+      } else {
+        startPlayback();
+      }
     }
   };
 
@@ -167,17 +555,45 @@ export function StickyCallStory() {
     setIsMuted((prev) => !prev);
   };
 
-  const handleSelectScenario = (id: string) => {
-    resetPlayback();
-    setActiveId(id);
+  const handleReset = () => {
+    if (isDesktop) {
+      const trigger = ScrollTrigger.getById("story-pin");
+      if (!trigger) return;
+
+      stopAutoScroll();
+      const index = SCENARIOS_ORDER.indexOf(activeId);
+      const start = trigger.start;
+      const end = trigger.end;
+      const blockStart = start + (index / SCENARIOS_ORDER.length) * (end - start) + 15;
+
+      const scrollObj = { y: window.scrollY };
+      scrollTweenRef.current = gsap.to(scrollObj, {
+        y: blockStart,
+        duration: 0.5,
+        ease: "power2.out",
+        onUpdate: () => window.scrollTo(0, scrollObj.y),
+        onComplete: () => {
+          scrollTweenRef.current = null;
+        }
+      });
+    } else {
+      resetPlayback();
+    }
   };
 
   useEffect(() => {
-    return () => stopPlayback();
+    return () => {
+      stopPlayback();
+      stopAutoScroll();
+    };
   }, []);
 
   return (
-    <section id="what" className="w-full py-20 bg-canvas-elevated border-y border-white/5 relative z-10">
+    <section
+      ref={containerRef}
+      id="what"
+      className="w-full py-20 bg-canvas-elevated border-y border-white/5 relative z-auto overflow-visible"
+    >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col items-center gap-10 w-full">
         {/* Scenario copy section */}
         <div className="text-center max-w-2xl select-none">
@@ -199,19 +615,46 @@ export function StickyCallStory() {
             <CallerSelector
               activeId={activeId}
               onSelect={handleSelectScenario}
-              disabled={isPlaying}
+              disabled={isPlaying && !isDesktop}
             />
           </div>
 
           {/* Center Column: Neutral Glass Device Frame */}
           <div className="lg:col-span-4 flex justify-center w-full">
-            <DeviceFrame
-              scenario={scenario}
-              isPlaying={isPlaying}
-              callDuration={callDuration}
-              onAccept={startPlayback}
-              onDecline={stopPlayback}
-            />
+            {/* The stable parent container for the 3D phone model */}
+            <div id="demo-phone-placeholder" className="relative w-[245px] h-[490px] flex items-center justify-center">
+              <div ref={phoneRef} className="absolute z-50 pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
+                <DeviceFrame
+                  layout={layoutMode}
+                  scenario={scenario}
+                  isPlaying={isPlaying}
+                  callDuration={callDuration}
+                  onAccept={isDesktop ? handleDesktopAccept : startPlayback}
+                  onDecline={isDesktop ? handleDesktopDecline : stopPlayback}
+                />
+
+                {/* Floating Transcript Ribbon overlay (AI Action Verdict Card) - floats in front of the phone */}
+                {layoutMode === "hero" && (
+                  <div
+                    id="verdict-card"
+                    className="absolute -bottom-6 -right-8 p-3 bg-surface-2/95 backdrop-blur border border-white/10 rounded-2xl shadow-[0_12px_24px_rgba(0,0,0,0.5)] z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none"
+                    style={{ transform: "translateZ(30px)" }}
+                  >
+                    <div className="flex items-center gap-1.5 text-[8.5px] font-mono text-accent-color uppercase tracking-wider">
+                      <Chats size={10} />
+                      <span>AI Action Verdict</span>
+                    </div>
+                    <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
+                      {scenario.summary.text}
+                    </p>
+                    <div className="pt-1.5 border-t border-white/5 flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
+                      <CheckCircle size={10} weight="fill" />
+                      <span>{scenario.summary.action}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Live Transcript Dialogue */}
@@ -224,7 +667,7 @@ export function StickyCallStory() {
               showSummary={showSummary}
               isMuted={isMuted}
               onPlayToggle={handlePlayToggle}
-              onReset={resetPlayback}
+              onReset={handleReset}
               onMuteToggle={handleMuteToggle}
             />
           </div>
