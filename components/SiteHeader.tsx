@@ -10,12 +10,19 @@ export function SiteHeader() {
   const [isLight, setIsLight] = useState(false);
 
   useEffect(() => {
-    setIsLight(document.documentElement.classList.contains("light"));
     const handleThemeChange = () => {
       setIsLight(document.documentElement.classList.contains("light"));
     };
+
+    const frameId = requestAnimationFrame(() => {
+      handleThemeChange();
+    });
+
     window.addEventListener("theme-toggle", handleThemeChange);
-    return () => window.removeEventListener("theme-toggle", handleThemeChange);
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("theme-toggle", handleThemeChange);
+    };
   }, []);
 
   const handleToggle = () => {

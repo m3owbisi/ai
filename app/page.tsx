@@ -16,13 +16,16 @@ export default function Home() {
   useEffect(() => {
     // Read stored user preference or respect system defaults
     const stored = localStorage.getItem("theme");
-    if (stored === "light") {
-      setTheme("light");
-      document.documentElement.classList.add("light");
-    } else {
-      setTheme("dark");
-      document.documentElement.classList.remove("light");
-    }
+    const frameId = requestAnimationFrame(() => {
+      if (stored === "light") {
+        setTheme("light");
+        document.documentElement.classList.add("light");
+      } else {
+        setTheme("dark");
+        document.documentElement.classList.remove("light");
+      }
+    });
+    return () => cancelAnimationFrame(frameId);
   }, []);
 
   useEffect(() => {

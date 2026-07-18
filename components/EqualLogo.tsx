@@ -10,7 +10,7 @@ export function EqualLogo({ className = "", variant = "theme-aware" }: EqualLogo
   if (variant === "white") {
     return (
       <img
-        src="/logo_white.png"
+        src="/logo/EQUAL AI LOGO_White.png"
         className={`h-7 w-auto select-none ${className}`}
         alt="Equal AI Logo"
       />
@@ -20,7 +20,7 @@ export function EqualLogo({ className = "", variant = "theme-aware" }: EqualLogo
   if (variant === "green") {
     return (
       <img
-        src="/logo.svg"
+        src="/logo/EQUAL AI LOGO.svg"
         className={`h-7 w-auto select-none ${className}`}
         alt="Equal AI Logo"
       />
@@ -31,13 +31,13 @@ export function EqualLogo({ className = "", variant = "theme-aware" }: EqualLogo
     <div className={`relative inline-block ${className}`}>
       {/* Dark mode: White PNG logo */}
       <img
-        src="/logo_white.png"
+        src="/logo/EQUAL AI LOGO_White.png"
         className="h-7 w-auto select-none dark-logo-img"
         alt="Equal AI Logo"
       />
       {/* Light mode: Green Brand SVG logo */}
       <img
-        src="/logo.svg"
+        src="/logo/EQUAL AI LOGO.svg"
         className="h-7 w-auto select-none light-logo-img"
         alt="Equal AI Logo"
       />

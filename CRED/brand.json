@@ -1,0 +1,143 @@
+{
+  "name": "CRED",
+  "tagline": "CRED's design system, NeoPOP, is a fusion of Neomorphism and Pop Art.",
+  "description": "Equal AI — Influencer Brief\nWhat is Equal AI\nEqual AI is India's fastest growing AI call assistant. It's an Android app that picks up your unknown calls for you. The AI introduces itself as your assistant, talks to the caller, finds out who they are and what they want, and sends you a clean summary.\nYou don't pick up unknown calls anymore. The AI does.\nQuick facts to mention:\n40 lakh+ users already\nCrores of calls handled\nBuilt in India\nAvailable on Android, iOS coming soon\nFree to download\nImportant Features:\nAssistant can speak to callers in up to 10 Indian languages - Hindi, Hinglish, Tamil, Telugu, Bengali, Tamil, Malayalam, Gujarati and more \nUser can choose which promotional calls to mute and which ones to receive\nChoose from different voice options\nGet real-time conversation of the call and live nudges\nReceive call summary and recording after the call\n\nTrigger Points — Pick the one aligning with style\nGeneric & Full Product Demo — Show what Equal AI does, end to end. Demo the product live so the viewer sees exactly how it works.\nUnwanted Interruption — Talk about how unknown calls interrupt you at the worst times, and how Equal AI handles them silently in the background.\nTech Identity — Talk about how AI already runs most of your digital life, except calls. Position Equal AI as the missing piece in your AI stack.\nMissed Important Call — Talk about the regret of rejecting an unknown number that turned out to be important. Position Equal AI as the safety net that catches every call.\nBusy / Time Management — Talk about the daily decision fatigue of deciding which unknown calls to pick up. Position Equal AI as the assistant that takes the decision off your plate.\nSpam Volume — Talk about the endless flood of spam calls on your phone and how nothing has worked so far. Position Equal AI as the first thing that actually screens every spam call before it reaches you.\nSocial Boost — Talk about how everyone in your circle is already using Equal AI and you found out late. Use the \"I was the last to know\" angle.\nScam Fear — Talk about how smart and dangerous scam calls have become. Position Equal AI as the first defence layer that stops you from ever talking to a scammer.\nCurrent Market Gap — Talk about how the current options only identify spam, but Equal AI actually handles the call for you. Position it as the next-generation upgrade.\nLinguistic India — Talk about how India speaks different languages and finally has an AI assistant that speaks them too. Your Equal AI greets and responds in the caller's own language \n\nCTA - Equal AI. 40 lakh+ users. Crores of calls handled. Available on Android. iOS coming soon. Download it now.\n\nWhat to Avoid \nDo NOT mention pricing or plans in any content\nDo NOT add \"link in bio\" or \"comment for link\"\nDo NOT compare to Truecaller by name or frame Equal AI as \"better Truecaller\". Equal AI is a new category entirely.",
+  "sourceUrl": "https://www.myequal.ai/",
+  "logo": {
+    "primary": "logos/apple-touch-icon.png",
+    "alternates": [
+      "logos/favicon-1.png",
+      "logos/og-image-2.png"
+    ],
+    "notes": "No logo supplied in pasted DESIGN.md."
+  },
+  "colors": [
+    {
+      "role": "background",
+      "hex": "#ffffeb",
+      "oklch": "",
+      "name": "Wispr Flow reads like an editorial broadsheet rebuilt for software: a warm cream canvas",
+      "usage": "page canvas"
+    },
+    {
+      "role": "foreground",
+      "hex": "#034f46",
+      "oklch": "",
+      "name": "The palette stays disciplined to four working colors — cream, black, lavender  #f0d7ff  for primary actions, and forest teal",
+      "usage": "body text and headings"
+    },
+    {
+      "role": "accent",
+      "hex": "#e5fe40",
+      "oklch": "",
+      "name": "Brand",
+      "usage": "primary actions and emphasis"
+    },
+    {
+      "role": "surface",
+      "hex": "#121212",
+      "oklch": "",
+      "name": "Card",
+      "usage": "cards and panels"
+    },
+    {
+      "role": "muted",
+      "hex": "#8a8a8a",
+      "oklch": "",
+      "name": "Muted",
+      "usage": "secondary text and metadata"
+    },
+    {
+      "role": "border",
+      "hex": "#3d3d3d",
+      "oklch": "",
+      "name": "Border",
+      "usage": "rules and dividers"
+    },
+    {
+      "role": "accent-secondary",
+      "hex": "#ff8744",
+      "oklch": "",
+      "name": "Secondary",
+      "usage": "secondary actions and links"
+    }
+  ],
+  "typography": {
+    "display": {
+      "family": "800",
+      "fallbacks": [
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ],
+      "weights": [
+        400,
+        700
+      ]
+    },
+    "body": {
+      "family": "14px",
+      "fallbacks": [
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ],
+      "weights": [
+        400,
+        700
+      ]
+    }
+  },
+  "voice": {
+    "adjectives": [],
+    "tone": "Equal AI — Influencer Brief\nWhat is Equal AI\nEqual AI is India's fastest growing AI call assistant.",
+    "messagingPillars": [
+      "Equal AI — Influencer Brief\nWhat is Equal AI\nEqual AI is India's fastest growing AI call assistant. It's an Android app that picks up your unknown calls for you. The AI introduces itself as your assistant, talks to the caller, finds out who they are and what they want, and sends you a clean summary.\nYou don't pick up unknown calls anymore. The AI does.\nQuick facts to mention:\n40 lakh+ users already\nCrores of calls handled\nBuilt in India\nAvailable on Android, iOS coming soon\nFree to download\nImportant Features:\nAssistant can speak to callers in up to 10 Indian languages - Hindi, Hinglish, Tamil, Telugu, Bengali, Tamil, Malayalam, Gujarati and more \nUser can choose which promotional calls to mute and which ones to receive\nChoose from different voice options\nGet real-time conversation of the call and live nudges\nReceive call summary and recording after the call\n\nTrigger Points — Pick the one aligning with style\nGeneric & Full Product Demo — Show what Equal AI does, end to end. Demo the product live so the viewer sees exactly how it works.\nUnwanted Interruption — Talk about how unknown calls interrupt you at the worst times, and how Equal AI handles them silently in the background.\nTech Identity — Talk about how AI already runs most of your digital life, except calls. Position Equal AI as the missing piece in your AI stack.\nMissed Important Call — Talk about the regret of rejecting an unknown number that turned out to be important. Position Equal AI as the safety net that catches every call.\nBusy / Time Management — Talk about the daily decision fatigue of deciding which unknown calls to pick up. Position Equal AI as the assistant that takes the decision off your plate.\nSpam Volume — Talk about the endless flood of spam calls on your phone and how nothing has worked so far. Position Equal AI as the first thing that actually screens every spam call before it reaches you.\nSocial Boost — Talk about how everyone in your circle is already using Equal AI and you found out late. Use the \"I was the last to know\" angle.\nScam Fear — Talk about how smart and dangerous scam calls have become. Position Equal AI as the first defence layer that stops you from ever talking to a scammer.\nCurrent Market Gap — Talk about how the current options only identify spam, but Equal AI actually handles the call for you. Position it as the next-generation upgrade.\nLinguistic India — Talk about how India speaks different languages and finally has an AI assistant that speaks them too. Your Equal AI greets and responds in the caller's own language \n\nCTA - Equal AI. 40 lakh+ users. Crores of calls handled. Available on Android. iOS coming soon. Download it now.\n\nWhat to Avoid \nDo NOT mention pricing or plans in any content\nDo NOT add \"link in bio\" or \"comment for link\"\nDo NOT compare to Truecaller by name or frame Equal AI as \"better Truecaller\". Equal AI is a new category entirely.",
+      "CRED's design system, NeoPOP, is a fusion of Neomorphism and Pop Art. It is a luxury-first, high-contrast environment designed to make financial management feel like a high-stakes game."
+    ],
+    "vocabulary": {
+      "use": [],
+      "avoid": []
+    }
+  },
+  "imagery": {
+    "style": "",
+    "subjects": [],
+    "treatment": "",
+    "avoid": [],
+    "samples": [
+      {
+        "file": "imagery/cover-0.png",
+        "kind": "cover",
+        "caption": "Social cover image"
+      },
+      {
+        "file": "imagery/image-1.jpg",
+        "kind": "image",
+        "caption": "Site image 1"
+      },
+      {
+        "file": "imagery/image-2.jpg",
+        "kind": "image",
+        "caption": "Site image 2"
+      },
+      {
+        "file": "imagery/image-3.png",
+        "kind": "image",
+        "caption": "Site image 3"
+      }
+    ]
+  },
+  "layout": {
+    "radius": "\"0px\"",
+    "borderWeight": "1px",
+    "spacing": "8px baseline grid",
+    "postureRules": []
+  }
+}

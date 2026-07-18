@@ -2,7 +2,7 @@
 
 import { forwardRef, useMemo, useRef, useEffect, MutableRefObject, CSSProperties, HTMLAttributes } from 'react';
 import { motion } from 'motion/react';
-import './VariableProximity.css';
+
 
 function useAnimationFrame(callback: () => void) {
   useEffect(() => {
@@ -73,7 +73,6 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
   } = props;
 
   const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const interpolatedSettingsRef = useRef<string[]>([]);
   const mousePositionRef = useMousePositionRef(containerRef);
   const lastPositionRef = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
@@ -151,7 +150,6 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
         })
         .join(', ');
 
-      interpolatedSettingsRef.current[index] = newSettings;
       letterRef.style.fontVariationSettings = newSettings;
     });
   });
@@ -183,7 +181,7 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
                 }}
                 style={{
                   display: 'inline-block',
-                  fontVariationSettings: interpolatedSettingsRef.current[currentLetterIndex]
+                  fontVariationSettings: fromFontVariationSettings
                 }}
                 aria-hidden="true"
               >

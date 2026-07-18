@@ -53,47 +53,51 @@ export function DeviceFrame({
   useEffect(() => {
     if (!isHero) return;
 
-    // Reset screening simulation on category change
-    setTypedLines([]);
-    setCurrentTypingText("");
-    setTypingLineIndex(0);
-
-    const lines = scenario.dialogue;
     let active = true;
-    let lineIdx = 0;
-    let charIdx = 0;
-    let currentText = "";
+    let startTimeout: NodeJS.Timeout;
 
-    const typeNextChar = () => {
+    const frameId = requestAnimationFrame(() => {
       if (!active) return;
-      if (lineIdx >= lines.length || lineIdx >= 3) return; // limit to 3 lines to fit frame nicely
+      setTypedLines([]);
+      setCurrentTypingText("");
+      setTypingLineIndex(0);
 
-      const line = lines[lineIdx];
-      if (charIdx < line.text.length) {
-        currentText += line.text[charIdx];
-        setCurrentTypingText(currentText);
-        charIdx++;
-        // Speed up typing slightly
-        setTimeout(typeNextChar, 15);
-      } else {
-        // Line complete
-        setTypedLines((prev) => [...prev, { speaker: line.speaker, text: line.text }]);
-        setCurrentTypingText("");
-        currentText = "";
-        charIdx = 0;
-        lineIdx++;
-        setTypingLineIndex(lineIdx);
-        // Wait 1 second before starting next line
-        setTimeout(typeNextChar, 1000);
-      }
-    };
+      const lines = scenario.dialogue;
+      let lineIdx = 0;
+      let charIdx = 0;
+      let currentText = "";
 
-    // Delay start of first line typing
-    const startTimeout = setTimeout(typeNextChar, 400);
+      const typeNextChar = () => {
+        if (!active) return;
+        if (lineIdx >= lines.length || lineIdx >= 3) return; // limit to 3 lines to fit frame nicely
+
+        const line = lines[lineIdx];
+        if (charIdx < line.text.length) {
+          currentText += line.text[charIdx];
+          setCurrentTypingText(currentText);
+          charIdx++;
+          // Speed up typing slightly
+          setTimeout(typeNextChar, 15);
+        } else {
+          // Line complete
+          setTypedLines((prev) => [...prev, { speaker: line.speaker, text: line.text }]);
+          setCurrentTypingText("");
+          currentText = "";
+          charIdx = 0;
+          lineIdx++;
+          setTypingLineIndex(lineIdx);
+          // Wait 1 second before starting next line
+          setTimeout(typeNextChar, 1000);
+        }
+      };
+
+      startTimeout = setTimeout(typeNextChar, 400);
+    });
 
     return () => {
       active = false;
-      clearTimeout(startTimeout);
+      cancelAnimationFrame(frameId);
+      if (startTimeout) clearTimeout(startTimeout);
     };
   }, [scenario.id, isHero]);
 
@@ -250,7 +254,7 @@ export function DeviceFrame({
                           {line.speaker === "equal" ? "Equal AI" : scenario.callerName}
                         </span>
                         <p className={line.speaker === "equal" ? "text-accent-color font-medium font-sans" : "text-text-secondary font-sans"}>
-                          "{line.text}"
+                          &ldquo;{line.text}&rdquo;
                         </p>
                       </div>
                     ))}
@@ -268,8 +272,8 @@ export function DeviceFrame({
                               : "text-text-secondary font-sans"
                           }
                         >
-                          "{currentTypingText}
-                          <span className="inline-block w-0.5 h-2.5 ml-0.5 bg-accent-color animate-pulse align-middle" />"
+                          &ldquo;{currentTypingText}
+                          <span className="inline-block w-0.5 h-2.5 ml-0.5 bg-accent-color animate-pulse align-middle" />&rdquo;
                         </p>
                       </div>
                     )}

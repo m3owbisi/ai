@@ -35,6 +35,7 @@ export default function RotatingText({
   loop = true,
 }: RotatingTextProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [randomDelays, setRandomDelays] = useState<number[]>([]);
 
   useEffect(() => {
     if (!auto) return;
@@ -60,6 +61,15 @@ export default function RotatingText({
     return currentText.split("").map((char) => (char === " " ? "\u00A0" : char));
   }, [currentText, splitBy]);
 
+  useEffect(() => {
+    if (staggerFrom === "random") {
+      const frameId = requestAnimationFrame(() => {
+        setRandomDelays(elements.map(() => Math.random() * elements.length * staggerDuration));
+      });
+      return () => cancelAnimationFrame(frameId);
+    }
+  }, [elements, staggerFrom, staggerDuration]);
+
   const getStaggerDelay = (index: number, total: number) => {
     if (staggerFrom === "first") {
       return index * staggerDuration;
@@ -72,7 +82,7 @@ export default function RotatingText({
       return Math.abs(index - center) * staggerDuration;
     }
     if (staggerFrom === "random") {
-      return Math.random() * total * staggerDuration;
+      return randomDelays[index] ?? 0;
     }
     return index * staggerDuration;
   };
