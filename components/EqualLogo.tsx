@@ -3,10 +3,10 @@ import React from "react";
 
 interface EqualLogoProps {
   className?: string;
-  variant?: "green" | "white";
+  variant?: "green" | "white" | "theme-aware";
 }
 
-export function EqualLogo({ className = "", variant = "green" }: EqualLogoProps) {
+export function EqualLogo({ className = "", variant = "theme-aware" }: EqualLogoProps) {
   if (variant === "white") {
     return (
       <img
@@ -17,11 +17,30 @@ export function EqualLogo({ className = "", variant = "green" }: EqualLogoProps)
     );
   }
 
+  if (variant === "green") {
+    return (
+      <img
+        src="/logo.svg"
+        className={`h-7 w-auto select-none ${className}`}
+        alt="Equal AI Logo"
+      />
+    );
+  }
+
   return (
-    <img
-      src="/logo.svg"
-      className={`h-7 w-auto select-none ${className}`}
-      alt="Equal AI Logo"
-    />
+    <div className={`relative inline-block ${className}`}>
+      {/* Dark mode: White PNG logo */}
+      <img
+        src="/logo_white.png"
+        className="h-7 w-auto select-none dark-logo-img"
+        alt="Equal AI Logo"
+      />
+      {/* Light mode: Green Brand SVG logo */}
+      <img
+        src="/logo.svg"
+        className="h-7 w-auto select-none light-logo-img"
+        alt="Equal AI Logo"
+      />
+    </div>
   );
 }

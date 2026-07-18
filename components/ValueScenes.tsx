@@ -62,9 +62,9 @@ export function ValueScenes() {
       </section>
 
       {/* Scene 1: A New Standard */}
-      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-white/5 relative">
+      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-hairline-neutral relative transition-colors duration-500">
         {/* Floating Crown element */}
-        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-10 text-white/40 pointer-events-none">
+        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-[0.06] text-text-primary pointer-events-none">
           <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M15 70 L15 40 L30 55 L50 25 L70 55 L85 40 L85 70 Z" />
             <line x1="15" y1="80" x2="85" y2="80" />
@@ -88,7 +88,7 @@ export function ValueScenes() {
       </section>
 
       {/* Scene 2: 11 Indian Languages */}
-      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-white/5 relative overflow-hidden">
+      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-hairline-neutral relative overflow-hidden transition-colors duration-500">
         {/* Floating scripts characters behind */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.04]">
           {floatingScripts.map((item) => (
@@ -127,9 +127,9 @@ export function ValueScenes() {
       </section>
 
       {/* Scene 3: Safety First */}
-      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-white/5 relative">
+      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-hairline-neutral relative transition-colors duration-500">
         {/* Floating Shield SVG */}
-        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-10 text-white/40 pointer-events-none">
+        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-[0.06] text-text-primary pointer-events-none">
           <svg viewBox="0 0 100 120" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M50 5 L90 20 L90 55 Q90 95 50 115 Q10 95 10 55 L10 20 Z" />
             <path d="M35 60 L45 70 L70 45" stroke="currentColor" strokeWidth="2" />
@@ -150,9 +150,9 @@ export function ValueScenes() {
       </section>
 
       {/* Scene 4: Origin */}
-      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-white/5 relative">
+      <section className="min-h-[80svh] flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full py-20 border-t border-hairline-neutral relative transition-colors duration-500">
         {/* Floating India outline SVG */}
-        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-10 text-white/40 pointer-events-none">
+        <div className="absolute right-12 md:right-32 top-1/2 -translate-y-1/2 w-48 h-48 opacity-[0.06] text-text-primary pointer-events-none">
           <svg viewBox="0 0 200 240" fill="none" stroke="currentColor" strokeWidth="1.2">
             <path d="M85 20 L100 15 L115 18 L130 25 L145 35 L155 50 L165 65 L168 80 L170 100 L172 120 L168 140 L160 155 L150 170 L145 185 L140 200 L130 215 L115 225 L100 230 L88 228 L75 220 L65 205 L55 190 L48 175 L42 160 L40 145 L35 130 L30 115 L28 100 L32 85 L40 70 L50 55 L60 42 L70 30 Z" />
             <circle cx="95" cy="65" r="2" fill="currentColor" />

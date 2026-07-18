@@ -37,9 +37,9 @@ export function LiveTranscript({
   }, [transcriptLines, isTyping, showSummary]);
 
   return (
-    <div className="w-full flex flex-col h-[380px] bg-surface-1 border border-white/5 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden">
+    <div className="w-full flex flex-col h-[380px] bg-surface-1 border border-hairline-neutral rounded-3xl shadow-2xl overflow-hidden transition-all duration-500">
       {/* Transcript Header */}
-      <div className="flex justify-between items-center px-5 py-3 border-b border-white/5 bg-black/20 select-none">
+      <div className="flex justify-between items-center px-5 py-3 border-b border-hairline-neutral bg-[var(--surface-2)]/30 select-none">
         <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-quiet">
           Live Assistant Transcript
         </span>
@@ -60,7 +60,7 @@ export function LiveTranscript({
         ref={bodyRef}
         role="log"
         aria-live="polite"
-        className="flex-1 p-5 overflow-y-auto flex flex-col gap-3 scrollbar-thin scrollbar-thumb-white/10"
+        className="flex-1 p-5 overflow-y-auto flex flex-col gap-3 scrollbar-thin scrollbar-thumb-hairline-neutral"
       >
         {transcriptLines.length === 0 && !isTyping && (
           <div className="flex-1 flex items-center justify-center text-text-quiet text-xs italic text-center select-none">
@@ -88,7 +88,7 @@ export function LiveTranscript({
                   className={`px-4 py-2.5 rounded-2xl text-xs leading-relaxed font-medium ${
                     isEqual
                       ? "bg-accent-color text-black rounded-tr-xs"
-                      : "bg-surface-2 text-text-primary rounded-tl-xs border border-white/5"
+                      : "bg-surface-2 text-text-primary rounded-tl-xs border border-hairline-neutral"
                   }`}
                 >
                   {line.text}
@@ -103,7 +103,7 @@ export function LiveTranscript({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className={`flex items-center gap-1.5 p-3 rounded-2xl bg-surface-2 border border-white/5 max-w-[60px] ${
+              className={`flex items-center gap-1.5 p-3 rounded-2xl bg-surface-2 border border-hairline-neutral max-w-[60px] ${
                 transcriptLines.length % 2 === 1 ? "self-end" : "self-start"
               }`}
             >
@@ -119,7 +119,7 @@ export function LiveTranscript({
               initial={{ opacity: 0, y: 15, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-4 p-4 rounded-2xl bg-accent-color text-black shadow-[0_8px_24px_rgba(229,254,64,0.2)] flex flex-col gap-2 select-none"
+              className="mt-4 p-4 rounded-2xl bg-accent-color text-black shadow-lg shadow-accent-color/30 flex flex-col gap-2 select-none"
             >
               <div className="flex items-center gap-2 text-[9px] font-mono uppercase tracking-wider font-semibold opacity-70">
                 <span className="w-1.5 h-1.5 rounded-full bg-black" />
@@ -137,13 +137,13 @@ export function LiveTranscript({
       </div>
 
       {/* Play/Control panel footer */}
-      <div className="px-5 py-3 border-t border-white/5 bg-black/40 flex justify-between items-center select-none">
+      <div className="px-5 py-3 border-t border-hairline-neutral bg-[var(--surface-2)]/30 flex justify-between items-center select-none">
         <div className="flex items-center gap-3">
           <button
             onClick={onPlayToggle}
             className={`h-9 px-4 flex items-center gap-2 rounded-full font-semibold text-xs transition-all duration-300 active:scale-95 cursor-pointer ${
               isPlaying
-                ? "bg-surface-2 text-text-primary border border-white/10"
+                ? "bg-surface-2 text-text-primary border border-hairline-neutral"
                 : "bg-text-primary text-background hover:bg-accent-color"
             }`}
           >
@@ -162,7 +162,7 @@ export function LiveTranscript({
 
           <button
             onClick={onReset}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-transparent border border-white/5 text-text-secondary hover:border-white/10 hover:text-text-primary active:scale-95 transition-all duration-300 cursor-pointer"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-transparent border border-hairline-neutral text-text-secondary hover:border-hairline hover:text-text-primary active:scale-95 transition-all duration-300 cursor-pointer"
             title="Reset"
           >
             <ArrowCounterClockwise size={14} weight="bold" />
@@ -172,7 +172,7 @@ export function LiveTranscript({
         {/* Audio Speaker Mute Toggle */}
         <button
           onClick={onMuteToggle}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-transparent border border-white/5 text-text-secondary hover:border-white/10 hover:text-text-primary active:scale-95 transition-all duration-300 cursor-pointer"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-transparent border border-hairline-neutral text-text-secondary hover:border-hairline hover:text-text-primary active:scale-95 transition-all duration-300 cursor-pointer"
           title={isMuted ? "Unmute sound" : "Mute sound"}
         >
           {isMuted ? <SpeakerSimpleSlash size={16} /> : <SpeakerSimpleHigh size={16} />}

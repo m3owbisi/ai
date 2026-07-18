@@ -119,7 +119,7 @@ export function DeviceFrame({
         {/* Back Plate (Z = -6px) */}
         <div
           className={`absolute inset-0 rounded-[3rem] transition-colors duration-500 ${
-            isHero ? "bg-[#131913]/30 border border-[#E5FE40]/10" : "bg-gradient-to-br from-[#121612] to-[#040604] border border-white/10"
+            isHero ? "bg-[var(--device-back-hero)] border border-[var(--device-back-border-hero)]" : "bg-gradient-to-br from-[var(--device-back-grad-start)] to-[var(--device-back-grad-end)] border border-[var(--device-back-border)]"
           }`}
           style={{
             transform: "translateZ(-6px) rotateY(180deg)",
@@ -127,9 +127,9 @@ export function DeviceFrame({
             backfaceVisibility: "hidden",
           }}
         >
-          {/* Lenses / Camera Module (hidden when hollow for cleaner vector aesthetic) */}
+          {/* Lenses / Camera Module */}
           <div
-            className={`absolute top-9 left-9 w-18 h-18 bg-[#131913]/80 rounded-[1.25rem] border border-white/5 shadow-inner flex flex-wrap p-2 gap-1.5 justify-center items-center transition-opacity duration-500 ${
+            className={`absolute top-9 left-9 w-18 h-18 bg-[var(--surface-2)]/80 rounded-[1.25rem] border border-hairline-neutral shadow-inner flex flex-wrap p-2 gap-1.5 justify-center items-center transition-opacity duration-500 ${
               isHero ? "opacity-30" : "opacity-100"
             }`}
           >
@@ -141,7 +141,7 @@ export function DeviceFrame({
             </div>
           </div>
           {/* Logo symbol centered on back */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 w-8 h-8 rounded-full border border-[#E5FE40]/30 flex items-center justify-center">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 w-8 h-8 rounded-full border border-hairline flex items-center justify-center">
             <div className="w-3.5 h-3.5 bg-accent-color rounded-full" />
           </div>
         </div>
@@ -150,10 +150,10 @@ export function DeviceFrame({
         {voxelLayers.map((zOffset) => (
           <div
             key={zOffset}
-            className="absolute inset-0 rounded-[3rem] border border-[#E5FE40]/5 pointer-events-none transition-all duration-500"
+            className="absolute inset-0 rounded-[3rem] border border-hairline/5 pointer-events-none transition-all duration-500"
             style={{
               transform: `translateZ(${zOffset}px)`,
-              background: isHero ? "rgba(19, 25, 19, 0.25)" : "linear-gradient(135deg, #181d18, #050705)",
+              background: isHero ? "var(--device-bezel-bg-hero)" : "linear-gradient(135deg, var(--device-bezel-grad-start), var(--device-bezel-grad-end))",
               opacity: isHero ? 0.6 : 0.88,
             }}
           />
@@ -162,22 +162,16 @@ export function DeviceFrame({
         {/* Physical buttons placed on side edges */}
         {/* Left Side: Volume Buttons */}
         <div
-          className={`absolute left-[-2.5px] top-28 w-[3px] h-11 rounded-l-sm border-l shadow-sm animate-pulse transition-all duration-500 ${
-            isHero ? "bg-[#E5FE40] border-[#E5FE40]/20" : "bg-zinc-700/90 border-white/10"
-          }`}
+          className={`absolute left-[-2.5px] top-28 w-[3px] h-11 rounded-l-sm border-l shadow-sm animate-pulse transition-all duration-500 bg-[var(--device-button-bg-hero)] border-[var(--device-button-border-hero)]`}
           style={{ transform: "translateZ(0px)" }}
         />
         <div
-          className={`absolute left-[-2.5px] top-42 w-[3px] h-11 rounded-l-sm border-l shadow-sm transition-all duration-500 ${
-            isHero ? "bg-[#E5FE40] border-[#E5FE40]/20" : "bg-zinc-700/90 border-white/10"
-          }`}
+          className={`absolute left-[-2.5px] top-42 w-[3px] h-11 rounded-l-sm border-l shadow-sm transition-all duration-500 bg-[var(--device-button-bg)] border-[var(--device-button-border)]`}
           style={{ transform: "translateZ(0px)" }}
         />
         {/* Right Side: Power Button */}
         <div
-          className={`absolute right-[-2.5px] top-34 w-[3px] h-16 rounded-r-sm border-r shadow-sm transition-all duration-500 ${
-            isHero ? "bg-[#E5FE40] border-[#E5FE40]/20" : "bg-zinc-700/90 border-white/10"
-          }`}
+          className={`absolute right-[-2.5px] top-34 w-[3px] h-16 rounded-r-sm border-r shadow-sm transition-all duration-500 bg-[var(--device-button-bg)] border-[var(--device-button-border)]`}
           style={{ transform: "translateZ(1px)" }}
         />
 
@@ -185,30 +179,32 @@ export function DeviceFrame({
         <div
           className={`absolute inset-0 rounded-[3rem] p-[7px] border flex flex-col justify-between items-center overflow-hidden transition-all duration-500 ${
             isHero
-              ? "bg-[#080b08]/50 border-white/5 shadow-[inset_0_1px_2px_rgba(255,255,255,0.08)] backdrop-blur-md"
-              : "bg-[#090b09] border-white/15 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.2)]"
+              ? "bg-[var(--device-screen-bg-hero)] border-[var(--device-screen-border-hero)] backdrop-blur-md"
+              : "bg-[var(--device-screen-bg)] border-[var(--device-screen-border)]"
           }`}
           style={{
             transform: "translateZ(5px)",
             transformStyle: "preserve-3d",
+            boxShadow: isHero ? "var(--device-screen-shadow-hero)" : "var(--device-screen-shadow)",
           }}
         >
           {/* Interactive glare reflection overlay */}
           <div
-            className="absolute inset-0 pointer-events-none z-30 opacity-12 bg-gradient-to-tr from-transparent via-white to-transparent transition-transform duration-300"
+            className="absolute inset-0 pointer-events-none z-30 bg-gradient-to-tr from-transparent via-white to-transparent transition-transform duration-300"
             style={{
               transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px) rotate(45deg) scale(1.6)`,
+              opacity: "var(--device-glare-opacity)",
             }}
           />
 
           {/* Screen Content Container (Inner Bezel) */}
           <div
             className={`w-full h-full p-4 rounded-[calc(3rem-7px)] flex flex-col justify-between items-center relative overflow-hidden transition-all duration-500 ${
-              isHero ? "bg-transparent border-none" : "bg-[#040504] border border-white/5"
+              isHero ? "bg-transparent border-none" : "bg-[var(--device-screen-inner-bg)] border border-hairline-neutral"
             }`}
           >
             {/* Dynamic Island Capsule */}
-            <div className="w-18 h-4.5 bg-black rounded-full border border-white/5 absolute top-2.5 left-1/2 -translate-x-1/2 flex items-center justify-between px-3 z-30">
+            <div className="w-18 h-4.5 bg-black rounded-full border border-hairline-neutral absolute top-2.5 left-1/2 -translate-x-1/2 flex items-center justify-between px-3 z-30">
               <div className="w-1.5 h-1.5 bg-zinc-900 rounded-full shadow-inner" />
               <div className="w-1 h-1 bg-zinc-950 rounded-full" />
             </div>
@@ -217,7 +213,7 @@ export function DeviceFrame({
             <div className="w-full flex justify-between items-center text-[8.5px] font-mono text-text-quiet mt-1.5 px-1.5">
               <span>9:41</span>
               <div className="flex items-center gap-1">
-                <span className="w-2.5 h-1.5 border border-white/20 rounded-sm relative block">
+                <span className="w-2.5 h-1.5 border border-hairline-neutral rounded-sm relative block">
                   <span className="absolute top-[1px] left-[1px] bottom-[1px] right-[2px] bg-accent-color rounded-2xs" />
                 </span>
               </div>
@@ -297,7 +293,7 @@ export function DeviceFrame({
 
                   <div
                     className={`w-18 h-18 rounded-full flex items-center justify-center border transition-all duration-500 bg-surface-1 ${
-                      isPlaying ? "border-accent-color shadow-[0_0_20px_var(--accent-glow)]" : "border-white/10"
+                      isPlaying ? "border-accent-color shadow-[0_0_20px_var(--accent-glow)]" : "border-hairline-neutral"
                     }`}
                   >
                     <User size={30} className={isPlaying ? "text-accent-color" : "text-text-secondary"} />
@@ -321,7 +317,7 @@ export function DeviceFrame({
                   <button
                     onClick={onDecline}
                     disabled={!isPlaying}
-                    className="w-11 h-11 rounded-full flex items-center justify-center bg-danger text-text-primary shadow-[0_4px_12px_rgba(255,93,93,0.3)] transition-all duration-300 active:scale-95 cursor-pointer disabled:opacity-30 disabled:scale-90 disabled:cursor-not-allowed"
+                    className="w-11 h-11 rounded-full flex items-center justify-center bg-danger text-text-primary shadow-lg shadow-danger/30 transition-all duration-300 active:scale-95 cursor-pointer disabled:opacity-30 disabled:scale-90 disabled:cursor-not-allowed"
                     aria-label="Decline Call"
                   >
                     <PhoneDisconnect size={20} weight="fill" />
@@ -331,7 +327,7 @@ export function DeviceFrame({
                   <button
                     onClick={onAccept}
                     disabled={isPlaying}
-                    className="w-11 h-11 rounded-full flex items-center justify-center bg-success text-black shadow-[0_4px_16px_rgba(102,242,154,0.4)] transition-all duration-300 active:scale-95 cursor-pointer disabled:opacity-30 disabled:scale-90 disabled:cursor-not-allowed"
+                    className="w-11 h-11 rounded-full flex items-center justify-center bg-success text-black shadow-lg shadow-success/30 transition-all duration-300 active:scale-95 cursor-pointer disabled:opacity-30 disabled:scale-90 disabled:cursor-not-allowed"
                     aria-label="Accept Call"
                   >
                     <Phone size={20} weight="fill" />

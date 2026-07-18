@@ -1,11 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { Sun, Moon } from "@phosphor-icons/react";
 import { EqualLogo } from "./EqualLogo";
 
 export function SiteHeader() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    setIsLight(document.documentElement.classList.contains("light"));
+    const handleThemeChange = () => {
+      setIsLight(document.documentElement.classList.contains("light"));
+    };
+    window.addEventListener("theme-toggle", handleThemeChange);
+    return () => window.removeEventListener("theme-toggle", handleThemeChange);
+  }, []);
+
+  const handleToggle = () => {
+    window.dispatchEvent(new Event("theme-toggle"));
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
@@ -21,11 +36,11 @@ export function SiteHeader() {
         layout
         className={`flex items-center justify-between w-full transition-all duration-500 ${
           isScrolled
-            ? "max-w-2xl px-6 py-2.5 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-            : "max-w-7xl px-8 py-6 bg-transparent border-b border-white/5"
+            ? "max-w-2xl px-6 py-2.5 bg-surface-1/80 backdrop-blur-md rounded-full border border-hairline-neutral shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
+            : "max-w-7xl px-8 py-6 bg-transparent border-b border-hairline-neutral"
         }`}
       >
-        <EqualLogo variant="white" />
+        <EqualLogo />
 
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-tight">
           <a href="#what" className="text-text-secondary hover:text-text-primary transition-colors">
@@ -42,8 +57,16 @@ export function SiteHeader() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-4">
-          <button className="relative overflow-hidden px-5 py-2 rounded-full bg-text-primary text-background font-semibold text-[13px] tracking-tight hover:bg-accent-color transition-all duration-300 active:scale-95 group">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleToggle}
+            className="w-9 h-9 flex items-center justify-center rounded-full border border-hairline-neutral text-text-primary hover:bg-surface-2 transition-all duration-300 cursor-pointer active:scale-90"
+            aria-label="Toggle Theme"
+          >
+            {isLight ? <Moon size={18} weight="bold" /> : <Sun size={18} weight="bold" />}
+          </button>
+          
+          <button className="relative overflow-hidden px-5 py-2 rounded-full bg-text-primary text-background font-semibold text-[13px] tracking-tight hover:bg-accent-color transition-all duration-300 active:scale-95 group cursor-pointer">
             Download
           </button>
         </div>

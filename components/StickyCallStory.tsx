@@ -592,7 +592,7 @@ export function StickyCallStory() {
     <section
       ref={containerRef}
       id="what"
-      className="w-full py-20 bg-canvas-elevated border-y border-white/5 relative z-auto overflow-visible"
+      className="w-full py-20 bg-canvas-elevated border-y border-hairline-neutral relative z-auto overflow-visible transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col items-center gap-10 w-full">
         {/* Scenario copy section */}
@@ -636,7 +636,7 @@ export function StickyCallStory() {
                 {/* Floating Transcript Ribbon overlay (AI Action Verdict Card) - floats in front of the phone */}
                 <div
                   id="verdict-card"
-                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-2/95 backdrop-blur border border-white/10 rounded-2xl shadow-[0_12px_24px_rgba(0,0,0,0.5)] z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
+                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-1/95 backdrop-blur border border-hairline-neutral rounded-2xl shadow-xl z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
                     layoutMode === "hero" ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
                   style={{ transform: "translateZ(30px)" }}
@@ -648,7 +648,7 @@ export function StickyCallStory() {
                   <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
                     {scenario.summary.text}
                   </p>
-                  <div className="pt-1.5 border-t border-white/5 flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
+                  <div className="pt-1.5 border-t border-hairline-neutral flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
                     <CheckCircle size={10} weight="fill" />
                     <span>{scenario.summary.action}</span>
                   </div>

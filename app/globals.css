@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* Dark mode (default) */
   --background: #050605;
   --foreground: #F6F8F2;
   --canvas-elevated: #080B08;
@@ -18,6 +19,90 @@
   
   --font-sans: var(--font-dm-sans), sans-serif;
   --font-serif: var(--font-dm-serif), serif;
+
+  /* Custom variables for 3D Device Frame layers - Dark Mode */
+  --device-back-hero: rgba(19, 25, 19, 0.3);
+  --device-back-border-hero: rgba(229, 254, 64, 0.1);
+  --device-back-grad-start: #121612;
+  --device-back-grad-end: #040604;
+  --device-back-border: rgba(255, 255, 255, 0.1);
+  --device-bezel-bg-hero: rgba(19, 25, 19, 0.25);
+  --device-bezel-grad-start: #181d18;
+  --device-bezel-grad-end: #050705;
+  --device-screen-bg-hero: rgba(8, 11, 8, 0.5);
+  --device-screen-border-hero: rgba(255, 255, 255, 0.05);
+  --device-screen-bg: #090b09;
+  --device-screen-border: rgba(255, 255, 255, 0.15);
+  --device-screen-inner-bg: #040504;
+  --device-screen-inner-border: rgba(255, 255, 255, 0.05);
+  --device-glare-opacity: 0.12;
+  --device-button-bg-hero: #E5FE40;
+  --device-button-border-hero: rgba(229, 254, 64, 0.2);
+  --device-button-bg: #3f3f46;
+  --device-button-border: rgba(255, 255, 255, 0.1);
+  --device-screen-shadow-hero: inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  --device-screen-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.2);
+  
+  --orbit-path: rgba(255, 255, 255, 0.08);
+}
+
+.light {
+  /* Light mode tokens */
+  --background: #FCFFFD;
+  --foreground: #1a1a1a;
+  --canvas-elevated: #f4f7f5;
+  --surface-1: #ffffff;
+  --surface-2: #ECF7F2;
+  --hairline: rgba(0, 177, 64, 0.16);
+  --hairline-neutral: #e0e0e0;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-quiet: #999999;
+  --accent: #00B140;
+  --accent-glow: rgba(0, 177, 64, 0.15);
+  --danger: #FF5D5D;
+  --success: #00B140;
+
+  /* Custom variables for 3D Device Frame layers - Light Mode */
+  --device-back-hero: rgba(240, 243, 241, 0.3);
+  --device-back-border-hero: rgba(0, 177, 64, 0.1);
+  --device-back-grad-start: #f4f7f5;
+  --device-back-grad-end: #e2e8e4;
+  --device-back-border: rgba(0, 0, 0, 0.1);
+  --device-bezel-bg-hero: rgba(240, 243, 241, 0.25);
+  --device-bezel-grad-start: #f4f7f5;
+  --device-bezel-grad-end: #ffffff;
+  --device-screen-bg-hero: rgba(252, 255, 253, 0.85);
+  --device-screen-border-hero: rgba(0, 0, 0, 0.05);
+  --device-screen-bg: #ffffff;
+  --device-screen-border: rgba(0, 0, 0, 0.1);
+  --device-screen-inner-bg: #FCFFFD;
+  --device-screen-inner-border: rgba(0, 0, 0, 0.05);
+  --device-glare-opacity: 0.04;
+  --device-button-bg-hero: #00B140;
+  --device-button-border-hero: rgba(0, 177, 64, 0.2);
+  --device-button-bg: #d4d4d8;
+  --device-button-border: rgba(0, 0, 0, 0.1);
+  --device-screen-shadow-hero: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  --device-screen-shadow: inset 0 1.5px 2px rgba(0, 0, 0, 0.05);
+
+  --orbit-path: rgba(0, 177, 64, 0.15);
+}
+
+/* Default (dark mode) logo styles */
+.dark-logo-img {
+  display: block;
+}
+.light-logo-img {
+  display: none;
+}
+
+/* Light mode logo styles */
+.light .dark-logo-img {
+  display: none;
+}
+.light .light-logo-img {
+  display: block;
 }
 
 @theme inline {

@@ -4,7 +4,7 @@ import { EqualLogo } from "./EqualLogo";
 
 export function SiteFooter() {
   return (
-    <footer id="press" className="w-full bg-background border-t border-white/5 relative z-10 select-none py-16">
+    <footer id="press" className="w-full bg-background border-t border-hairline-neutral relative z-10 select-none py-16 transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col gap-12 w-full">
         {/* Banner callout */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -23,19 +23,19 @@ export function SiteFooter() {
             </button>
             <a
               href="#ios-waitlist"
-              className="h-10 px-5 rounded-full border border-white/10 hover:bg-surface-2 hover:border-white/20 flex items-center justify-center text-text-primary font-semibold text-xs tracking-tight active:scale-95 transition-all duration-300"
+              className="h-10 px-5 rounded-full border border-hairline-neutral hover:bg-surface-2 hover:border-hairline flex items-center justify-center text-text-primary font-semibold text-xs tracking-tight active:scale-95 transition-all duration-300"
             >
               Join the waitlist
             </a>
           </div>
         </div>
 
-        <div className="w-full h-[1px] bg-white/5" />
+        <div className="w-full h-[1px] bg-hairline-neutral" />
 
         {/* Brand alignment & copyright */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="flex flex-col gap-3">
-            <EqualLogo variant="white" />
+            <EqualLogo />
             <span className="inline-flex items-center gap-2 text-[10px] font-mono text-text-quiet uppercase tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-color shadow-[0_0_8px_var(--accent-glow)] animate-pulse" />
               Built in India

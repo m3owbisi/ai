@@ -41,7 +41,7 @@ export function HeroCopy() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="relative inline-block text-accent-color drop-shadow-[0_0_12px_rgba(229,254,64,0.15)] group overflow-hidden"
+          className="relative inline-block text-accent-color drop-shadow-[0_0_12px_var(--accent-glow)] group overflow-hidden"
         >
           <VariableProximity
             label="your attention."

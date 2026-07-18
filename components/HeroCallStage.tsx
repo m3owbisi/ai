@@ -50,7 +50,7 @@ export function HeroCallStage() {
           className={`w-11 h-11 rounded-full flex items-center justify-center border transition-all duration-500 ${
             isActive
               ? "bg-accent-color border-accent-color text-black shadow-[0_0_16px_var(--accent-glow)]"
-              : "bg-surface-1 border-white/10 text-text-secondary hover:border-white/20 hover:bg-surface-2"
+              : "bg-surface-1 border-hairline-neutral text-text-secondary hover:border-hairline hover:bg-surface-2"
           }`}
         >
           <Icon size={20} weight={isActive ? "fill" : "light"} />
@@ -78,7 +78,7 @@ export function HeroCallStage() {
         itemSize={80}
         responsive={true}
         showPath={true}
-        pathColor="rgba(255, 255, 255, 0.08)"
+        pathColor="var(--orbit-path)"
         pathWidth={1}
         className="w-full h-full z-10"
         centerContent={

@@ -43,7 +43,7 @@ const REVIEWS = [
 
 export function Reviews() {
   return (
-    <section id="reviews" className="w-full py-24 bg-background relative z-10 select-none border-t border-white/5">
+    <section id="reviews" className="w-full py-24 bg-background relative z-10 select-none border-t border-hairline-neutral transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col gap-12 w-full">
         {/* Header */}
         <div className="flex flex-col gap-3">
@@ -60,7 +60,7 @@ export function Reviews() {
           {REVIEWS.map((rev, idx) => (
             <div
               key={idx}
-              className="p-6 bg-surface-1 border border-white/5 rounded-2xl flex flex-col justify-between gap-6 hover:border-white/10 transition-colors duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.3)]"
+              className="p-6 bg-surface-1 border border-hairline-neutral rounded-2xl flex flex-col justify-between gap-6 hover:border-hairline transition-colors duration-300 shadow-sm"
             >
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-0.5 text-accent-color">
@@ -74,7 +74,7 @@ export function Reviews() {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-surface-2 border border-white/5 flex items-center justify-center font-bold text-xs text-text-primary uppercase">
+                <div className="w-8 h-8 rounded-full bg-surface-2 border border-hairline-neutral flex items-center justify-center font-bold text-xs text-text-primary uppercase">
                   {rev.name[0]}
                 </div>
                 <div className="flex flex-col">
@@ -91,7 +91,7 @@ export function Reviews() {
         </div>
 
         {/* Stat callout */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/5 mt-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-hairline-neutral mt-6">
           <span className="text-xs text-text-secondary font-medium">
             Join thousands of Indians who&apos;ve quietly switched.
           </span>
