@@ -84,7 +84,7 @@ export function HeroCallStage() {
         centerContent={
           <div className="relative flex items-center justify-center w-[245px] h-[490px]">
             {/* The stable placeholder container for the 3D phone model */}
-            <div id="hero-phone-placeholder" className="w-[245px] h-[490px] rounded-[3rem] border border-dashed border-white/5 bg-white/2" />
+            <div id="hero-phone-placeholder" className="w-[245px] h-[490px] rounded-[3rem] border border-dashed border-hairline-neutral/40 bg-surface-1/5" />
           </div>
         }
       />

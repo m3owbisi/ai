@@ -31,12 +31,12 @@ export function CallerSelector({ activeId, onSelect, disabled }: CallerSelectorP
             className={`flex items-center gap-3 px-4 py-3 rounded-full lg:rounded-2xl border text-left transition-all duration-300 whitespace-nowrap cursor-pointer select-none group active:scale-98 ${
               isActive
                 ? "bg-accent-color border-accent-color text-black shadow-[0_4px_16px_var(--accent-glow)]"
-                : "bg-surface-1 border-white/5 text-text-secondary hover:border-white/10 hover:bg-surface-2 disabled:opacity-50"
+                : "bg-surface-1 border-hairline-neutral text-text-secondary hover:border-hairline hover:bg-surface-2 disabled:opacity-50"
             }`}
           >
             <span
               className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                isActive ? "bg-black/10 text-black" : "bg-white/5 text-text-secondary group-hover:text-text-primary"
+                isActive ? "bg-black/10 text-black" : "bg-surface-2 text-text-secondary group-hover:text-text-primary"
               }`}
             >
               <Icon size={16} weight={isActive ? "fill" : "light"} />

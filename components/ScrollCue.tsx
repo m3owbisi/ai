@@ -6,7 +6,7 @@ export function ScrollCue() {
   return (
     <div className="flex flex-col items-center gap-2 text-[10px] font-mono uppercase tracking-[0.24em] text-text-quiet select-none">
       <span>Scroll to explore</span>
-      <div className="w-[1px] h-8 bg-white/10 relative overflow-hidden">
+      <div className="w-[1px] h-8 bg-hairline-neutral relative overflow-hidden">
         <motion.div
           animate={{
             y: ["-100%", "100%"],

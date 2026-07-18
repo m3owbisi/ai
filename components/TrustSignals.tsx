@@ -12,9 +12,9 @@ export function TrustSignals() {
         </span>
         Built in India
       </span>
-      <span className="w-1 h-1 rounded-full bg-white/20" />
+      <span className="w-1 h-1 rounded-full bg-hairline-neutral" />
       <span>40 Lakh+ Users</span>
-      <span className="w-1 h-1 rounded-full bg-white/20" />
+      <span className="w-1 h-1 rounded-full bg-hairline-neutral" />
       <span className="inline-flex items-center gap-1">
         <Star size={12} weight="fill" className="text-accent-color drop-shadow-[0_0_6px_var(--accent-glow)]" />
         4.5 Rating
