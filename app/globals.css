@@ -139,6 +139,22 @@ body {
 }
 
 
+
+@keyframes bulb-flicker {
+  0% { opacity: 0.2; text-shadow: none; }
+  5% { opacity: 1; text-shadow: 0 0 12px var(--accent-glow); }
+  10% { opacity: 0.4; text-shadow: none; }
+  15% { opacity: 0.9; text-shadow: 0 0 8px var(--accent-glow); }
+  25% { opacity: 0.1; text-shadow: none; }
+  35% { opacity: 1; text-shadow: 0 0 16px var(--accent-glow); }
+  50% { opacity: 0.6; text-shadow: 0 0 4px var(--accent-glow); }
+  70% { opacity: 1; text-shadow: 0 0 12px var(--accent-glow); }
+  100% { opacity: 1; text-shadow: 0 0 12px var(--accent-glow); }
+}
+
+.bulb-flicker {
+  animation: bulb-flicker 1.5s ease-out forwards;
+}
 @media (hover: hover) and (pointer: fine) {
   .has-custom-cursor,
   .has-custom-cursor * {

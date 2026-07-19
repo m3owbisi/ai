@@ -7,11 +7,21 @@ import { scenarios } from "@/data/call-scenarios";
 import { CallerSelector } from "./CallerSelector";
 import { DeviceFrame } from "./DeviceFrame";
 import { LiveTranscript } from "./LiveTranscript";
+import SplitOrbit from "./HeroOrbitImages";
 import { Chats, CheckCircle } from "@phosphor-icons/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const SCENARIOS_ORDER = ["pitcher", "family", "stranger", "client", "courier"];
+
+const HERO_ORBIT_NODES = [
+  { id: "family", label: "Family", image: "/orbit-nodes/home.png" },
+  { id: "courier", label: "Courier", image: "/orbit-nodes/package.png" },
+  { id: "pitcher", label: "Promo Call", image: "/orbit-nodes/sparkle.png" },
+  { id: "client", label: "Client", image: "/orbit-nodes/briefcase.png" },
+  { id: "stranger", label: "Stranger", image: "/orbit-nodes/phone.png" },
+  { id: "auto", label: "Auto", image: "/orbit-nodes/auto.png" },
+];
 
 export function StickyCallStory() {
   const [activeId, setActiveId] = useState<string>("pitcher");
@@ -27,6 +37,7 @@ export function StickyCallStory() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
+  const orbitRef = useRef<HTMLDivElement>(null);
   const scrollTweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
 
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -34,6 +45,32 @@ export function StickyCallStory() {
   const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const scenario = scenarios[activeId];
+
+  const heroOrbitItems = HERO_ORBIT_NODES.map((node) => {
+    const isActive = activeId === node.id;
+
+    return (
+      <div key={node.id} className="relative flex h-20 w-20 flex-col items-center justify-center gap-1.5 pointer-events-auto">
+        <div
+          className={`flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-500 ${
+            isActive
+              ? "border-accent-color bg-accent-color/15 shadow-[0_0_18px_var(--accent-glow)]"
+              : "border-hairline-neutral bg-surface-1/85"
+          }`}
+        >
+          <img
+            src={node.image}
+            alt=""
+            draggable={false}
+            className={`h-full w-full rounded-full object-cover transition-transform duration-500 ${isActive ? "scale-110" : "scale-100"}`}
+          />
+        </div>
+        <span className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${isActive ? "text-accent-color font-semibold" : "text-text-quiet"}`}>
+          {node.label}
+        </span>
+      </div>
+    );
+  });
 
   // Keep refs of current values to avoid redundant React state updates during scroll scrubbing
   const lastActiveIdRef = useRef("");
@@ -235,6 +272,13 @@ export function StickyCallStory() {
       const deltas = getDeltas();
       
       // Initialize phone position in the Hero orbit (Larger scale + slanted rotation + 360deg spin buffer)
+      gsap.set(orbitRef.current, {
+        x: deltas.x,
+        y: deltas.y,
+        scale: 0.86,
+        opacity: 1,
+      });
+
       gsap.set(phoneRef.current, {
         x: deltas.x,
         y: deltas.y,
@@ -285,6 +329,13 @@ export function StickyCallStory() {
         x: -120,
         opacity: 0.45,
         duration: 1.0,
+      }, 0);
+
+      transitionTl.to(orbitRef.current, {
+        opacity: 0,
+        scale: 0.68,
+        duration: 0.55,
+        ease: "power2.out",
       }, 0);
 
       transitionTl.to(phoneRef.current, {
@@ -421,6 +472,7 @@ export function StickyCallStory() {
     }, () => {
       setIsDesktop(false);
       setLayoutMode("demo");
+      gsap.set(orbitRef.current, { opacity: 0, scale: 0.68, x: 0, y: 0 });
       gsap.set(phoneRef.current, {
         x: 0,
         y: 0,
@@ -623,6 +675,27 @@ export function StickyCallStory() {
           <div className="lg:col-span-4 flex justify-center w-full">
             {/* The stable parent container for the 3D phone model */}
             <div id="demo-phone-placeholder" className="relative w-[245px] h-[490px] flex items-center justify-center">
+              <div
+                ref={orbitRef}
+                className="absolute left-1/2 top-1/2 z-[60] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <SplitOrbit
+                  items={heroOrbitItems}
+                  baseWidth={620}
+                  radiusX={285}
+                  radiusY={92}
+                  rotation={-22}
+                  duration={30}
+                  itemSize={64}
+                  showPath={true}
+                  pathColor="var(--orbit-path)"
+                  pathWidth={1}
+                  frontOnly={true}
+                  className="h-full w-full"
+                />
+              </div>
+
               <div ref={phoneRef} className="absolute z-50 pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
                 <DeviceFrame
                   layout={layoutMode}
@@ -632,11 +705,9 @@ export function StickyCallStory() {
                   onAccept={isDesktop ? handleDesktopAccept : startPlayback}
                   onDecline={isDesktop ? handleDesktopDecline : stopPlayback}
                 />
-
-                {/* Floating Transcript Ribbon overlay (AI Action Verdict Card) - floats in front of the phone */}
                 <div
                   id="verdict-card"
-                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-1/95 backdrop-blur border border-hairline-neutral rounded-2xl shadow-xl z-50 max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
+                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-1/95 backdrop-blur border border-hairline-neutral rounded-2xl shadow-xl max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
                     layoutMode === "hero" ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
                   style={{ transform: "translateZ(30px)" }}
@@ -656,7 +727,6 @@ export function StickyCallStory() {
               </div>
             </div>
           </div>
-
           {/* Right Column: Live Transcript Dialogue */}
           <div className="lg:col-span-5 flex justify-center w-full">
             <LiveTranscript
