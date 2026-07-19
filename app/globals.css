@@ -14,6 +14,10 @@
   --text-quiet: #737A71;
   --accent: #E5FE40;
   --accent-glow: rgba(229, 254, 64, 0.32);
+  --cursor-color: #BAFF29;
+  --cursor-accent: #E5FE40;
+  --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --expo-in: cubic-bezier(0.7, 0, 0.84, 0);
   --danger: #FF5D5D;
   --success: #66F29A;
   
@@ -60,6 +64,8 @@
   --text-quiet: #767676;
   --accent: #00B140;
   --accent-glow: rgba(0, 177, 64, 0.15);
+  --cursor-color: #00B140;
+  --cursor-accent: #E5FE40;
   --danger: #FF5D5D;
   --success: #00B140;
 
@@ -132,6 +138,18 @@ body {
   overflow-x: hidden;
 }
 
+
+@media (hover: hover) and (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  .has-custom-cursor [data-cursor-disabled],
+  .has-custom-cursor [data-cursor-disabled] * {
+    cursor: auto !important;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-delay: -1ms !important;

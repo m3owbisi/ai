@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { HeroCopy } from "@/components/HeroCopy";
 import { HeroCallStage } from "@/components/HeroCallStage";
@@ -11,39 +11,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import FloatingLines from "@/components/FloatingLines";
 
 export default function Home() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  useEffect(() => {
-    // Read stored user preference or respect system defaults
-    const stored = localStorage.getItem("theme");
-    const frameId = requestAnimationFrame(() => {
-      if (stored === "light") {
-        setTheme("light");
-        document.documentElement.classList.add("light");
-      } else {
-        setTheme("dark");
-        document.documentElement.classList.remove("light");
-      }
-    });
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
-  useEffect(() => {
-    const handleToggle = () => {
-      const nextTheme = theme === "dark" ? "light" : "dark";
-      setTheme(nextTheme);
-      localStorage.setItem("theme", nextTheme);
-      if (nextTheme === "light") {
-        document.documentElement.classList.add("light");
-      } else {
-        document.documentElement.classList.remove("light");
-      }
-    };
-
-    window.addEventListener("theme-toggle", handleToggle);
-    return () => window.removeEventListener("theme-toggle", handleToggle);
-  }, [theme]);
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-sans relative overflow-x-hidden transition-colors duration-500">
       {/* Background radial atmosphere gradients */}
@@ -52,12 +19,9 @@ export default function Home() {
       {/* Floating lines background waves */}
       <div
         id="bg-waves-wrapper"
-        className={`absolute top-0 left-0 right-0 h-[750px] pointer-events-none z-0 overflow-hidden transition-opacity duration-500 ${
-          theme === "light" ? "opacity-0" : "opacity-65"
-        }`}
+        className="absolute top-0 left-0 right-0 h-[750px] pointer-events-none z-0 overflow-hidden opacity-65 transition-opacity duration-500 light:opacity-0"
       >
-        {theme === "dark" && (
-          <FloatingLines
+        <FloatingLines
             enabledWaves={["top","middle","bottom"]}
             lineCount={7}
             lineDistance={100}
@@ -71,7 +35,6 @@ export default function Home() {
             gradientEnd="#050605"
             mixBlendMode="screen"
           />
-        )}
       </div>
 
       {/* Subtle fine film grain or dither layer */}
