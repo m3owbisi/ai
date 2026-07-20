@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { AnnouncementChip } from "./AnnouncementChip";
 import { DownloadCTA } from "./DownloadCTA";
 import { TrustSignals } from "./TrustSignals";
-import VariableProximity from "./VariableProximity";
+import { KineticText } from "@/components/ui/kinetic-text";
 
 export function HeroCopy() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,38 +21,21 @@ export function HeroCopy() {
       </motion.div>
 
       {/* Headline */}
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tighter leading-[1.05] text-text-primary">
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="block"
-        >
-          <VariableProximity
-            label="Not all calls deserve"
-            containerRef={containerRef}
-            radius={120}
-            falloff="linear"
-            fromFontVariationSettings="'wght' 400, 'opsz' 9"
-            toFontVariationSettings="'wght' 900, 'opsz' 40"
-          />
-        </motion.span>
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="bulb-flicker relative inline-block text-accent-color drop-shadow-[0_0_12px_var(--accent-glow)] group overflow-hidden"
-        >
-          <VariableProximity
-            label="your attention."
-            containerRef={containerRef}
-            radius={120}
-            falloff="linear"
-            fromFontVariationSettings="'wght' 400, 'opsz' 9"
-            toFontVariationSettings="'wght' 900, 'opsz' 40"
-          />
-        </motion.span>
-      </h1>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <KineticText
+          as="h1"
+          text="Not all calls deserve your attention."
+          className="max-w-[11ch] text-[clamp(5.2rem,7.3vw,7.4rem)] leading-[0.88] tracking-normal text-text-primary [font-optical-sizing:auto] [&>span:nth-child(n+23)]:text-accent-color [&>span:nth-child(n+23)]:drop-shadow-[0_0_12px_var(--accent-glow)]"
+          style={{
+            "--hover-padding": "calc(1em / 22)",
+            "--text-stroke-width": "calc(1em * 90 / 6000)",
+          } as React.CSSProperties}
+        />
+      </motion.div>
 
       {/* Explanatory Paragraph */}
       <motion.p
@@ -88,3 +71,4 @@ export function HeroCopy() {
     </div>
   );
 }
+

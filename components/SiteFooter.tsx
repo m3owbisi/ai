@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { EqualLogo } from "./EqualLogo";
+import { CosmicButton } from "./CosmicButton";
 
 export function SiteFooter() {
   return (
@@ -18,15 +19,12 @@ export function SiteFooter() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button className="h-10 px-5 rounded-full bg-text-primary text-background font-semibold text-xs tracking-tight hover:bg-accent-color transition-colors active:scale-95 cursor-pointer">
+            <CosmicButton size="sm" className="text-xs">
               Download Equal
-            </button>
-            <a
-              href="#ios-waitlist"
-              className="h-10 px-5 rounded-full border border-hairline-neutral hover:bg-surface-2 hover:border-hairline flex items-center justify-center text-text-primary font-semibold text-xs tracking-tight active:scale-95 transition-all duration-300"
-            >
+            </CosmicButton>
+            <CosmicButton href="#ios-waitlist" variant="secondary" size="sm" className="text-xs">
               Join the waitlist
-            </a>
+            </CosmicButton>
           </div>
         </div>
 
@@ -69,3 +67,5 @@ export function SiteFooter() {
     </footer>
   );
 }
+
+

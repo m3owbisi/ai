@@ -4,6 +4,7 @@ import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { EqualLogo } from "./EqualLogo";
 import { AnimatedBackground } from "@/components/core/animated-background";
 import { THEME_GIF_PRESETS, ThemeToggleButton } from "@/components/theme";
+import { CosmicButton } from "./CosmicButton";
 
 const NAV_ITEMS = [
   { label: "Product", href: "#what" },
@@ -63,11 +64,13 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <ThemeToggleButton variant="gif" start="center" gifUrl={THEME_GIF_PRESETS.one} />
           
-          <button className="relative overflow-hidden px-5 py-2 rounded-full bg-text-primary text-background font-semibold text-[13px] tracking-tight hover:bg-accent-color transition-all duration-300 active:scale-95 group cursor-pointer">
+          <CosmicButton size="sm" className="text-[13px]">
             Download
-          </button>
+          </CosmicButton>
         </div>
       </motion.div>
     </motion.header>
   );
 }
+
+

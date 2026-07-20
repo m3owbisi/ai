@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { CosmicButton } from "./CosmicButton";
 
 export function DownloadCTA() {
   const [showQR, setShowQR] = useState(false);
@@ -10,15 +11,12 @@ export function DownloadCTA() {
     <div className="relative flex flex-col sm:flex-row items-center gap-4">
       {/* Primary CTA */}
       <div className="relative">
-        <button
+        <CosmicButton
           onClick={() => setShowQR(!showQR)}
-          className="h-12 px-6 flex items-center gap-2 rounded-full bg-accent-color text-black font-semibold text-sm tracking-tight hover:shadow-[0_0_20px_var(--accent-glow)] active:scale-98 transition-all duration-300 select-none group cursor-pointer"
+          icon={<ArrowUpRight size={14} weight="bold" />}
         >
           Download for Android
-          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-black/10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            <ArrowUpRight size={14} weight="bold" />
-          </span>
-        </button>
+        </CosmicButton>
 
         {/* QR Code Tooltip/Popover */}
         <AnimatePresence>
@@ -42,15 +40,17 @@ export function DownloadCTA() {
       </div>
  
       {/* Secondary iOS Waitlist CTA */}
-      <a
+      <CosmicButton
         href="#ios-waitlist"
-        className="h-12 px-6 flex items-center gap-2 rounded-full bg-transparent text-text-primary font-semibold text-sm tracking-tight border border-hairline-neutral hover:bg-surface-2 hover:border-hairline active:scale-98 transition-all duration-300 select-none group"
+        variant="secondary"
+        badge={
+          <span className="text-[10px] font-medium text-text-quiet tracking-tight px-1.5 py-0.5 rounded bg-surface-2 border border-hairline-neutral/50 group-hover:bg-surface-1 transition-colors">
+            Waitlist
+          </span>
+        }
       >
         iOS coming soon
-        <span className="text-[10px] font-medium text-text-quiet tracking-tight px-1.5 py-0.5 rounded bg-surface-2 border border-hairline-neutral/50 group-hover:bg-surface-1 transition-colors">
-          Waitlist
-        </span>
-      </a>
+      </CosmicButton>
     </div>
   );
 }
