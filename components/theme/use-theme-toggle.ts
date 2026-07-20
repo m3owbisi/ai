@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme/theme-provider";
 import { createThemeAnimation, injectThemeTransitionStyles } from "@/components/theme/theme-animations";
 import type { ThemeAnimationOptions } from "@/components/theme/theme-config";
 

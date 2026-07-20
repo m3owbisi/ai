@@ -37,7 +37,6 @@ export function StickyCallStory() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
-  const orbitRef = useRef<HTMLDivElement>(null);
   const scrollTweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
 
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -272,13 +271,10 @@ export function StickyCallStory() {
       const deltas = getDeltas();
       
       // Initialize phone position in the Hero orbit (Larger scale + slanted rotation + 360deg spin buffer)
-      gsap.set(orbitRef.current, {
-        x: deltas.x,
-        y: deltas.y,
-        scale: 0.86,
+      gsap.set(".hero-phone-orbit-layer", {
         opacity: 1,
+        scale: 1,
       });
-
       gsap.set(phoneRef.current, {
         x: deltas.x,
         y: deltas.y,
@@ -331,13 +327,12 @@ export function StickyCallStory() {
         duration: 1.0,
       }, 0);
 
-      transitionTl.to(orbitRef.current, {
+      transitionTl.to(".hero-phone-orbit-layer", {
         opacity: 0,
-        scale: 0.68,
-        duration: 0.55,
+        scale: 0.9,
+        duration: 0.65,
         ease: "power2.out",
       }, 0);
-
       transitionTl.to(phoneRef.current, {
         x: 0,
         y: 0,
@@ -472,7 +467,7 @@ export function StickyCallStory() {
     }, () => {
       setIsDesktop(false);
       setLayoutMode("demo");
-      gsap.set(orbitRef.current, { opacity: 0, scale: 0.68, x: 0, y: 0 });
+      gsap.set(".hero-phone-orbit-layer", { opacity: 0, scale: 0.9 });
       gsap.set(phoneRef.current, {
         x: 0,
         y: 0,
@@ -676,54 +671,55 @@ export function StickyCallStory() {
             {/* The stable parent container for the 3D phone model */}
             <div id="demo-phone-placeholder" className="relative w-[245px] h-[490px] flex items-center justify-center">
               <div
-                ref={orbitRef}
-                className="absolute left-1/2 top-1/2 z-[60] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                ref={phoneRef}
+                className="absolute left-1/2 top-1/2 z-50 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <SplitOrbit
                   items={heroOrbitItems}
                   baseWidth={620}
-                  radiusX={285}
-                  radiusY={92}
+                  radiusX={215}
+                  radiusY={78}
                   rotation={-22}
                   duration={30}
                   itemSize={64}
                   showPath={true}
                   pathColor="var(--orbit-path)"
-                  pathWidth={1}
-                  frontOnly={true}
+                  pathWidth={2.25}
+                  frontOnly={false}
                   className="h-full w-full"
+                  phoneContent={
+                    <div className="relative pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
+                      <DeviceFrame
+                        layout={layoutMode}
+                        scenario={scenario}
+                        isPlaying={isPlaying}
+                        callDuration={callDuration}
+                        onAccept={isDesktop ? handleDesktopAccept : startPlayback}
+                        onDecline={isDesktop ? handleDesktopDecline : stopPlayback}
+                      />
+                      <div
+                        id="verdict-card"
+                        className={`absolute -bottom-6 -right-8 p-3 bg-surface-1/95 backdrop-blur border border-hairline-neutral rounded-2xl shadow-xl max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
+                          layoutMode === "hero" ? "opacity-100" : "opacity-0 pointer-events-none"
+                        }`}
+                        style={{ transform: "translateZ(30px)" }}
+                      >
+                        <div className="flex items-center gap-1.5 text-[8.5px] font-mono text-accent-color uppercase tracking-wider">
+                          <Chats size={10} />
+                          <span>AI Action Verdict</span>
+                        </div>
+                        <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
+                          {scenario.summary.text}
+                        </p>
+                        <div className="pt-1.5 border-t border-hairline-neutral flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
+                          <CheckCircle size={10} weight="fill" />
+                          <span>{scenario.summary.action}</span>
+                        </div>
+                      </div>
+                    </div>
+                  }
                 />
-              </div>
-
-              <div ref={phoneRef} className="absolute z-50 pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
-                <DeviceFrame
-                  layout={layoutMode}
-                  scenario={scenario}
-                  isPlaying={isPlaying}
-                  callDuration={callDuration}
-                  onAccept={isDesktop ? handleDesktopAccept : startPlayback}
-                  onDecline={isDesktop ? handleDesktopDecline : stopPlayback}
-                />
-                <div
-                  id="verdict-card"
-                  className={`absolute -bottom-6 -right-8 p-3 bg-surface-1/95 backdrop-blur border border-hairline-neutral rounded-2xl shadow-xl max-w-[190px] flex flex-col gap-2 pointer-events-auto select-none transition-opacity duration-300 ${
-                    layoutMode === "hero" ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
-                  style={{ transform: "translateZ(30px)" }}
-                >
-                  <div className="flex items-center gap-1.5 text-[8.5px] font-mono text-accent-color uppercase tracking-wider">
-                    <Chats size={10} />
-                    <span>AI Action Verdict</span>
-                  </div>
-                  <p className="text-[11px] leading-snug text-text-secondary font-medium font-sans">
-                    {scenario.summary.text}
-                  </p>
-                  <div className="pt-1.5 border-t border-hairline-neutral flex items-center gap-1.5 text-[9px] text-success font-semibold uppercase">
-                    <CheckCircle size={10} weight="fill" />
-                    <span>{scenario.summary.action}</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

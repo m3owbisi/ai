@@ -79,13 +79,26 @@ export function createThemeAnimation(
 
   if (variant === "gif") {
     return { name: "gif", css: `
-      ::view-transition-group(root) { animation-timing-function: var(--expo-in); }
-      ::view-transition-new(root) { mask: url('${gifUrl}') center / 0 no-repeat; animation: equal-theme-gif 1.4s both; ${blurNew} }
-      ::view-transition-old(root) { animation: equal-theme-gif 1.4s both; }
-      @keyframes equal-theme-gif { 0% { mask-size: 0; ${blurStart} } 20% { mask-size: 44vmax; } ${blurFrame} 100% { mask-size: 200vmax; ${blurEnd} } }
+      ::view-transition-group(root) {
+        animation-duration: 0.42s;
+        animation-timing-function: var(--expo-out);
+      }
+      ::view-transition-new(root) {
+        mask: url('${gifUrl}') center / 0 no-repeat;
+        animation: equal-theme-gif 0.42s both;
+        ${blurNew}
+      }
+      ::view-transition-old(root) {
+        animation: none;
+        z-index: -1;
+      }
+      @keyframes equal-theme-gif {
+        0% { mask-size: 0; ${blurStart} }
+        55% { mask-size: 72vmax; ${blurFrame} }
+        100% { mask-size: 220vmax; ${blurEnd} }
+      }
     ` };
   }
-
   if (variant === "rectangle") {
     const [from, to] = rectangleClipPath(start);
     return { name: `rectangle-${start}`, css: `

@@ -35,17 +35,50 @@ interface OrbitNodeProps {
   layer: OrbitLayer;
 }
 
-function generateRotatedEllipsePath(cx: number, cy: number, rx: number, ry: number, rotation: number): string {
+function rotatedEllipsePoint(cx: number, cy: number, rx: number, ry: number, rotation: number, theta: number) {
   const phi = (rotation * Math.PI) / 180;
-  const points = Array.from({ length: 161 }, (_, i) => {
-    const theta = (i / 160) * 2 * Math.PI;
-    const xLocal = -rx * Math.cos(theta);
-    const yLocal = -ry * Math.sin(theta);
-    const x = cx + xLocal * Math.cos(phi) - yLocal * Math.sin(phi);
-    const y = cy + xLocal * Math.sin(phi) + yLocal * Math.cos(phi);
-    return `${i === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-  });
-  return `${points.join(" ")} Z`;
+  const xLocal = -rx * Math.cos(theta);
+  const yLocal = -ry * Math.sin(theta);
+
+  return {
+    x: cx + xLocal * Math.cos(phi) - yLocal * Math.sin(phi),
+    y: cy + xLocal * Math.sin(phi) + yLocal * Math.cos(phi),
+  };
+}
+
+function generateRotatedEllipseArcPaths(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  rotation: number,
+  layer: OrbitLayer
+): string[] {
+  const samples = 240;
+  const paths: string[] = [];
+  let current: string[] = [];
+
+  for (let i = 0; i <= samples; i++) {
+    const theta = (i / samples) * 2 * Math.PI;
+    const point = rotatedEllipsePoint(cx, cy, rx, ry, rotation, theta);
+    const isFront = point.y >= cy;
+    const inLayer = layer === "front" ? isFront : !isFront;
+
+    if (inLayer) {
+      current.push(`${current.length === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`);
+    } else if (current.length > 1) {
+      paths.push(current.join(" "));
+      current = [];
+    } else {
+      current = [];
+    }
+  }
+
+  if (current.length > 1) {
+    paths.push(current.join(" "));
+  }
+
+  return paths;
 }
 
 /**
@@ -128,8 +161,13 @@ export default function SplitOrbit({
   const progress = useMotionValue(0);
   const center = baseWidth / 2;
 
-  const path = useMemo(
-    () => generateRotatedEllipsePath(center, center, radiusX, radiusY, rotation),
+  const backPath = useMemo(
+    () => generateRotatedEllipseArcPaths(center, center, radiusX, radiusY, rotation, "back"),
+    [center, radiusX, radiusY, rotation]
+  );
+
+  const frontPath = useMemo(
+    () => generateRotatedEllipseArcPaths(center, center, radiusX, radiusY, rotation, "front"),
     [center, radiusX, radiusY, rotation]
   );
 
@@ -160,7 +198,7 @@ export default function SplitOrbit({
 
   // The scaled stage that holds one half of the orbit nodes.
   const renderLayer = (layer: OrbitLayer, zIndex: number, withPath: boolean) => (
-    <div className="absolute inset-0 pointer-events-none" style={{ zIndex }} aria-hidden="true">
+    <div className="hero-phone-orbit-layer absolute inset-0 pointer-events-none" style={{ zIndex }} aria-hidden="true">
       <div
         className="absolute left-1/2 top-1/2"
         style={{
@@ -179,7 +217,17 @@ export default function SplitOrbit({
               viewBox={`0 0 ${baseWidth} ${baseWidth}`}
               className="absolute inset-0 pointer-events-none"
             >
-              <path d={path} fill="none" stroke={pathColor} strokeWidth={pathWidth / (scale ?? 1)} />
+              {(layer === "front" ? frontPath : backPath).map((path, index) => (
+                <path
+                  key={index}
+                  d={path}
+                  fill="none"
+                  stroke={pathColor}
+                  strokeWidth={pathWidth / (scale ?? 1)}
+                  strokeLinecap="round"
+                  opacity={0.72}
+                />
+              ))}
             </svg>
           )}
 
@@ -205,7 +253,7 @@ export default function SplitOrbit({
 
   return (
     <div ref={containerRef} className={`relative mx-auto aspect-square ${className}`}>
-      {/* Back arc — behind the phone */}
+      {/* Back arc - behind the phone */}
       {!frontOnly && renderLayer("back", 10, true)}
 
       {/* The 3D phone model */}
@@ -215,8 +263,8 @@ export default function SplitOrbit({
         </div>
       )}
 
-      {/* Front arc — in front of the phone */}
-      {renderLayer("front", 60, false)}
+      {/* Front arc - in front of the phone */}
+      {renderLayer("front", 60, true)}
 
       {/* Verdict card above everything */}
       {verdictContent && (

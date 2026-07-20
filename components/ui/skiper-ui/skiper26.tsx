@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GripHorizontal } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme/theme-provider";
 import React, { useCallback, useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";

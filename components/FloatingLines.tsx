@@ -313,7 +313,15 @@ export default function FloatingLines({
     const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     camera.position.z = 1;
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    let renderer: WebGLRenderer;
+    try {
+      renderer = new WebGLRenderer({ antialias: true, alpha: false });
+      container.style.background = '';
+    } catch (error) {
+      console.warn('FloatingLines: WebGL unavailable, using CSS fallback.', error);
+      container.style.background = 'radial-gradient(circle at 72% 38%, var(--accent-glow), transparent 34%), linear-gradient(135deg, transparent 8%, var(--orbit-path) 36%, transparent 56%), linear-gradient(155deg, transparent 20%, rgba(255,255,255,0.05) 45%, transparent 63%)';
+      return;
+    }
     renderer.setPixelRatio(Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';

@@ -39,7 +39,7 @@ export function SiteHeader() {
         <nav className="hidden md:flex items-center text-[13px] font-medium tracking-tight">
           <AnimatedBackground
             defaultValue={NAV_ITEMS[0].label}
-            className="rounded-full border border-accent-color/15 bg-accent-color/10"
+            className="rounded-full border border-accent-color/20 bg-accent-color/12 shadow-[0_0_22px_var(--accent-glow)]"
             transition={{
               type: "spring",
               bounce: 0.2,
@@ -52,7 +52,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 data-id={item.label}
-                className="rounded-full px-4 py-2 text-text-secondary outline-none transition-colors hover:text-text-primary focus-visible:text-text-primary"
+                className={`rounded-full outline-none transition-colors hover:text-text-primary focus-visible:text-text-primary focus-visible:ring-2 focus-visible:ring-accent-color/40 ${isScrolled ? "px-3.5 py-1.5" : "px-4 py-2"} text-text-secondary`}
               >
                 {item.label}
               </a>
@@ -61,7 +61,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <ThemeToggleButton variant="gif" start="center" blur gifUrl={THEME_GIF_PRESETS.one} />
+          <ThemeToggleButton variant="gif" start="center" gifUrl={THEME_GIF_PRESETS.one} />
           
           <button className="relative overflow-hidden px-5 py-2 rounded-full bg-text-primary text-background font-semibold text-[13px] tracking-tight hover:bg-accent-color transition-all duration-300 active:scale-95 group cursor-pointer">
             Download
