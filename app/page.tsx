@@ -8,35 +8,11 @@ import { StickyCallStory } from "@/components/StickyCallStory";
 import { ValueScenes } from "@/components/ValueScenes";
 import { Reviews } from "@/components/Reviews";
 import { SiteFooter } from "@/components/SiteFooter";
-import FloatingLines from "@/components/FloatingLines";
+import { HeroShaderBackground } from "@/components/HeroShaderBackground";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-sans relative overflow-x-hidden transition-colors duration-500">
-      {/* Background radial atmosphere gradients */}
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-[radial-gradient(ellipse_at_top,_var(--accent-glow),_transparent_70%)] pointer-events-none z-0" />
-      
-      {/* Floating lines background waves */}
-      <div
-        id="bg-waves-wrapper"
-        className="absolute top-0 left-0 right-0 h-[750px] pointer-events-none z-0 overflow-hidden opacity-65 transition-opacity duration-500 light:opacity-0"
-      >
-        <FloatingLines
-            enabledWaves={["top","middle","bottom"]}
-            lineCount={7}
-            lineDistance={100}
-            bendRadius={1}
-            bendStrength={-0.5}
-            interactive={true}
-            parallax={true}
-            animationSpeed={5}
-            gradientStart="#E5FE40"
-            gradientMid="#131913"
-            gradientEnd="#050605"
-            mixBlendMode="screen"
-          />
-      </div>
-
       {/* Subtle fine film grain or dither layer */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMTUiLz48L3N2Zz4=')] pointer-events-none z-10" />
 
@@ -44,16 +20,17 @@ export default function Home() {
       <SiteHeader />
 
       {/* Hero Viewport Container with theme-aware gradient background */}
-      <div className="w-full bg-gradient-to-b from-surface-2 to-background transition-colors duration-500 relative z-0">
-        <main className="flex flex-col justify-center items-center w-full max-w-7xl mx-auto px-6 sm:px-8 pt-24 md:pt-32 pb-16 md:pb-24 relative z-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full mt-8 md:mt-12">
+      <div className="w-full bg-gradient-to-b from-surface-2 to-background transition-colors duration-500 relative z-0 overflow-hidden">
+        <HeroShaderBackground />
+        <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pb-14 pt-24 sm:px-8 md:pb-24 md:pt-32">
+          <div className="mt-6 grid w-full grid-cols-1 items-center gap-8 md:mt-12 lg:grid-cols-12 lg:gap-12">
             {/* Headline and Copy */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
+            <div className="flex flex-col justify-center lg:col-span-7">
               <HeroCopy />
             </div>
 
             {/* Interactive Call Orbit Stage */}
-            <div className="lg:col-span-5 flex justify-center items-center">
+            <div className="flex items-center justify-center lg:col-span-5">
               <HeroCallStage />
             </div>
           </div>

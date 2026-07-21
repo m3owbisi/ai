@@ -14,14 +14,15 @@ type CosmicButtonProps = {
   badge?: React.ReactNode;
   variant?: "primary" | "secondary";
   size?: "sm" | "md";
+  external?: boolean;
 };
 
 const textWaveVariants = {
   hidden: {
     opacity: 0,
-    y: 8,
-    rotate: 8,
-    filter: "blur(3px)",
+    y: 5,
+    rotate: 4,
+    filter: "blur(2px)",
   },
   show: (i: number) => ({
     opacity: 1,
@@ -30,17 +31,17 @@ const textWaveVariants = {
     filter: "blur(0px)",
     transition: {
       delay: i * 0.018,
-      duration: 0.22,
+      duration: 0.24,
       y: {
         type: "spring",
-        damping: 13,
-        stiffness: 240,
+        damping: 16,
+        stiffness: 220,
         mass: 0.7,
       },
       rotate: {
         type: "spring",
-        damping: 10,
-        stiffness: 180,
+        damping: 14,
+        stiffness: 160,
       },
       filter: {
         duration: 0.18,
@@ -49,9 +50,9 @@ const textWaveVariants = {
   }),
   exit: (i: number) => ({
     opacity: 0,
-    y: -6,
-    rotate: -6,
-    filter: "blur(3px)",
+    y: -4,
+    rotate: -3,
+    filter: "blur(2px)",
     transition: {
       delay: i * 0.01,
       duration: 0.16,
@@ -64,7 +65,7 @@ function CosmicButtonText({ children }: { children: string }) {
 
   return (
     <span
-      className="relative inline-flex min-w-0 items-center overflow-hidden"
+      className="relative inline-flex min-w-0 items-center overflow-visible py-1"
       onMouseEnter={() => setWaveKey((key) => key + 1)}
       onFocus={() => setWaveKey((key) => key + 1)}
     >
@@ -74,8 +75,8 @@ function CosmicButtonText({ children }: { children: string }) {
         by="character"
         startOnView={false}
         variants={textWaveVariants}
-        className="inline-flex whitespace-nowrap leading-none"
-        segmentClassName="leading-none"
+        className="inline-flex whitespace-nowrap leading-[1.15]"
+        segmentClassName="leading-[1.15]"
       >
         {children}
       </TextAnimate>
@@ -92,6 +93,7 @@ export function CosmicButton({
   badge,
   variant = "primary",
   size = "md",
+  external = false,
 }: CosmicButtonProps) {
   const Component = href ? motion.a : motion.button;
 
@@ -100,30 +102,31 @@ export function CosmicButton({
       href={href}
       onClick={onClick}
       type={href ? undefined : "button"}
+      target={href && external ? "_blank" : undefined}
+      rel={href && external ? "noreferrer" : undefined}
       whileHover={{ y: -1 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
-        "group relative isolate inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full p-[1px] text-sm font-semibold tracking-tight outline-none transition-shadow duration-300 focus-visible:ring-2 focus-visible:ring-accent-color/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        size === "md" ? "h-12" : "h-10",
+        "group relative isolate inline-flex shrink-0 items-center justify-center rounded-full text-sm font-semibold tracking-tight outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent-color/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        size === "md" ? "h-13" : "h-11",
         variant === "primary"
-          ? "shadow-[0_0_24px_rgba(229,254,64,0.12)] hover:shadow-[0_0_30px_var(--accent-glow)]"
-          : "shadow-[0_0_18px_rgba(255,255,255,0.04)] hover:shadow-[0_0_22px_var(--accent-glow)]",
+          ? "shadow-[0_0_0_4px_var(--accent-glow),0_18px_36px_rgba(0,0,0,0.18)] hover:shadow-[0_0_0_5px_var(--accent-glow),0_22px_42px_rgba(0,0,0,0.24)]"
+          : "shadow-[0_0_0_2px_rgba(0,0,0,0.06)] hover:shadow-[0_0_0_4px_var(--accent-glow)]",
         className,
       )}
     >
-      <span className="pointer-events-none absolute inset-[-140%] rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,var(--accent)_70deg,rgba(255,255,255,0.68)_118deg,transparent_175deg,var(--accent)_260deg,transparent_360deg)] opacity-70 blur-[1px] animate-cosmic-spin transition-opacity duration-500 group-hover:opacity-100" />
       <span
         className={cn(
-          "relative z-10 flex h-full w-full items-center justify-center gap-2 rounded-full border px-5 transition-colors duration-300",
+          "relative z-10 flex h-full w-full items-center justify-center gap-2 rounded-full border-[3px] px-5 transition-colors duration-300",
           variant === "primary"
-            ? "border-white/10 bg-[linear-gradient(135deg,var(--accent)_0%,#f4ff9a_52%,var(--accent)_100%)] text-black light:bg-[linear-gradient(135deg,#00B140_0%,#6EEB8F_56%,#00B140_100%)] light:text-white"
-            : "border-hairline-neutral bg-background/78 text-text-primary backdrop-blur-md group-hover:bg-surface-2/92",
+            ? "border-accent-color bg-accent-color text-black shadow-[inset_0_0_0_2px_rgba(255,255,255,0.34)] light:border-accent-color light:text-white"
+            : "border-hairline-neutral bg-background/82 text-text-primary backdrop-blur-md group-hover:border-accent-color/70 group-hover:bg-surface-2/92",
         )}
       >
         <CosmicButtonText>{children}</CosmicButtonText>
         {badge}
         {icon && (
-          <span className="flex size-6 items-center justify-center rounded-full bg-black/10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-[.cosmic-secondary]:bg-surface-2">
+          <span className="flex size-6 items-center justify-center rounded-full bg-black/12 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-[.cosmic-secondary]:bg-surface-2">
             {icon}
           </span>
         )}

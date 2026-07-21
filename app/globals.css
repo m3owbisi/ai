@@ -21,8 +21,8 @@
   --danger: #FF5D5D;
   --success: #66F29A;
   
-  --font-sans: var(--font-dm-sans), sans-serif;
-  --font-serif: var(--font-dm-serif), serif;
+  --font-sans: "Apfel Grotezk", "Space Grotesk", Verdana, sans-serif;
+  --font-serif: "Apfel Grotezk", "Space Grotesk", Verdana, sans-serif;
 
   /* Custom variables for 3D Device Frame layers - Dark Mode */
   --device-back-hero: rgba(19, 25, 19, 0.3);
@@ -186,3 +186,159 @@ body {
   }
 }
 
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.hero-description-char {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity, filter;
+}
+
+.hero-shader-layer canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.hero-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-mobile-menu-line {
+  transform-origin: center;
+}
+
+.mobile-call-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(104vw, 500px);
+  height: min(104vw, 500px);
+  transform: translate(-50%, -50%) rotate(-22deg);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.mobile-call-orbit::before,
+.mobile-call-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border: 2px solid var(--orbit-path);
+  border-radius: 9999px;
+  transform: scaleX(1.32) scaleY(0.52);
+}
+
+.mobile-call-orbit::after {
+  inset: 24%;
+  opacity: 0.55;
+  transform: scaleX(1.18) scaleY(0.46);
+}
+
+.mobile-call-orbit-node {
+  --angle: calc((360deg / var(--orbit-total)) * var(--orbit-index));
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  animation: mobile-call-orbit 18s linear infinite;
+  animation-delay: calc(var(--orbit-index) * -3s);
+  transform-origin: center;
+}
+
+.mobile-call-orbit-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid var(--hairline-neutral);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--surface-1) 86%, transparent);
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: translate(-50%, -50%);
+}
+
+.mobile-call-orbit-icon img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 9999px;
+}
+
+@keyframes mobile-call-orbit {
+  from {
+    transform: rotate(var(--angle)) translateX(min(38vw, 170px)) scaleY(0.46) rotate(calc(-1 * var(--angle))) scaleY(2.17) rotate(22deg);
+  }
+  to {
+    transform: rotate(calc(var(--angle) + 360deg)) translateX(min(38vw, 170px)) scaleY(0.46) rotate(calc(-1 * (var(--angle) + 360deg))) scaleY(2.17) rotate(22deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-call-orbit-node {
+    animation-play-state: paused;
+  }
+}
+
+.hero-headline-word {
+  display: inline-block;
+  white-space: nowrap;
+  outline: none;
+}
+
+.hero-headline-word:hover,
+.hero-headline-word:focus-visible {
+  color: var(--accent);
+  text-shadow: 0 0 22px var(--accent-glow);
+}
+
+.hero-headline-char {
+  display: inline-block;
+  transform-origin: 50% 82%;
+  will-change: transform;
+}
+
+.light-ballpit-fallback {
+  position: absolute;
+  inset: -12% -8% -8% 34%;
+  opacity: 0.68;
+  filter: saturate(1.1);
+  background:
+    radial-gradient(circle at 12% 20%, #00B140 0 18px, transparent 19px),
+    radial-gradient(circle at 24% 34%, #BAFF29 0 14px, transparent 15px),
+    radial-gradient(circle at 42% 18%, #00B140 0 23px, transparent 24px),
+    radial-gradient(circle at 60% 30%, #BAFF29 0 17px, transparent 18px),
+    radial-gradient(circle at 76% 18%, #00B140 0 20px, transparent 21px),
+    radial-gradient(circle at 18% 58%, #BAFF29 0 22px, transparent 23px),
+    radial-gradient(circle at 38% 66%, #00B140 0 16px, transparent 17px),
+    radial-gradient(circle at 56% 54%, #BAFF29 0 26px, transparent 27px),
+    radial-gradient(circle at 82% 62%, #00B140 0 18px, transparent 19px),
+    radial-gradient(circle at 28% 84%, #00B140 0 24px, transparent 25px),
+    radial-gradient(circle at 68% 86%, #BAFF29 0 20px, transparent 21px);
+  background-size: 360px 360px;
+  animation: light-ballpit-drift 18s linear infinite;
+}
+
+@keyframes light-ballpit-drift {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to { transform: translate3d(-80px, 42px, 0) rotate(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .light-ballpit-fallback {
+    animation: none;
+  }
+}

@@ -49,9 +49,9 @@ export function StickyCallStory() {
     const isActive = activeId === node.id;
 
     return (
-      <div key={node.id} className="relative flex h-20 w-20 flex-col items-center justify-center gap-1.5 pointer-events-auto">
+      <div key={node.id} className="relative flex size-16 shrink-0 flex-col items-center justify-center pointer-events-auto">
         <div
-          className={`flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-500 ${
+          className={`flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-all duration-500 ${
             isActive
               ? "border-accent-color bg-accent-color/15 shadow-[0_0_18px_var(--accent-glow)]"
               : "border-hairline-neutral bg-surface-1/85"
@@ -61,7 +61,7 @@ export function StickyCallStory() {
             src={node.image}
             alt=""
             draggable={false}
-            className={`h-full w-full rounded-full object-cover transition-transform duration-500 ${isActive ? "scale-110" : "scale-100"}`}
+            className={`aspect-square h-full w-full rounded-full object-cover transition-transform duration-500 ${isActive ? "scale-110" : "scale-100"}`}
           />
         </div>
         <span className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${isActive ? "text-accent-color font-semibold" : "text-text-quiet"}`}>

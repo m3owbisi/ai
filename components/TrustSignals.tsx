@@ -1,19 +1,14 @@
 "use client";
 import React from "react";
-import {
-  ChatCircleText,
-  DownloadSimple,
-  FlagBanner,
+import {  FlagBanner,
   Star,
   UsersThree,
 } from "@phosphor-icons/react";
 
 const SIGNALS = [
   { label: "Built in India", icon: FlagBanner },
-  { label: "40 Lakh+ Users", icon: UsersThree },
-  { label: "30L+ downloads", icon: DownloadSimple },
+  { label: "40L+ USERS", icon: UsersThree },
   { label: "4.5 Rating", icon: Star },
-  { label: "10 Indian languages", icon: ChatCircleText },
 ];
 
 export function TrustSignals() {
