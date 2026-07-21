@@ -4,7 +4,8 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { EqualLogo } from "./EqualLogo";
 import { THEME_GIF_PRESETS, ThemeToggleButton } from "@/components/theme";
 import { TextRoll } from "@/components/ui/skiper-ui/skiper58";
-import { ArrowIcon, MenuIcon } from "@/components/ui/skiper-ui/skiper99";
+import { MenuIcon } from "@/components/ui/skiper-ui/skiper99";
+import { ArrowLeftRight as ArrowLeftRightIcon } from "lucide-react";
 
 const MENU_ITEMS = [
   { label: "Product", href: "#what" },
@@ -12,7 +13,7 @@ const MENU_ITEMS = [
   { label: "Reviews", href: "#reviews" },
   { label: "Press", href: "#press" },
   { label: "Blogs", href: "#blogs" },
-  { label: "Contact Us", href: "#contact" },
+  { label: "Contact", href: "#contact" },
 ];
 
 function MenuTrigger({ open, onClick }: { open: boolean; onClick: () => void }) {
@@ -25,16 +26,16 @@ function MenuTrigger({ open, onClick }: { open: boolean; onClick: () => void }) 
       aria-expanded={open}
       data-cursor-disabled
     >
-      <span className="hidden size-full md:block" aria-hidden="true">
+      <span className="hidden size-full md:flex items-center justify-center" aria-hidden="true">
         <MenuIcon className="text-current" />
       </span>
       <motion.span
-        className="block size-full md:hidden"
+        className="flex items-center justify-center size-full md:hidden"
         aria-hidden="true"
         animate={{ rotate: open ? 180 : 0 }}
         transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
       >
-        <ArrowIcon className="text-current" />
+        <ArrowLeftRightIcon className="size-5 text-current" />
       </motion.span>
     </button>
   );
@@ -47,35 +48,32 @@ function FullscreenMenu({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-40 overflow-hidden bg-background/96 text-text-primary backdrop-blur-2xl"
+      className="fixed inset-0 z-40 overflow-y-auto bg-background/96 text-text-primary backdrop-blur-2xl"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,var(--accent-glow),transparent_32%),radial-gradient(circle_at_18%_78%,rgba(0,177,64,0.18),transparent_30%)] light:bg-[radial-gradient(circle_at_78%_22%,rgba(0,177,64,0.18),transparent_32%),radial-gradient(circle_at_18%_78%,rgba(229,254,64,0.14),transparent_30%)]" />
-      <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(var(--accent)_1px,transparent_1px),linear-gradient(90deg,var(--accent)_1px,transparent_1px)] bg-[size:54px_54px]" />
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-7xl flex-col justify-center px-6 pb-8 pt-28 sm:px-10 lg:px-14">
-        <div className="mb-4 flex items-center justify-between border-b-2 border-hairline-neutral pb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-text-quiet sm:mb-6">
-          <span>Equal AI Menu</span>
-          <span>{MENU_ITEMS.length.toString().padStart(2, "0")} paths</span>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,var(--accent-glow),transparent_32%),radial-gradient(circle_at_18%_78%,rgba(0,177,64,0.18),transparent_30%)] pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(var(--accent)_1px,transparent_1px),linear-gradient(90deg,var(--accent)_1px,transparent_1px)] bg-[size:54px_54px] pointer-events-none" />
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-7xl flex-col justify-center px-6 pb-12 pt-28 sm:px-10 lg:px-14">
+        <div className="mb-4 flex items-center justify-between border-b-2 border-accent-color/30 pb-3 text-[11px] font-bold uppercase tracking-[0.24em] text-text-quiet sm:mb-6 hidden">
+          <span className="text-accent-color font-extrabold">Equal AI Navigation</span>
+          <span>0{MENU_ITEMS.length} paths</span>
         </div>
-        <nav aria-label="Fullscreen navigation" className="flex flex-col items-start gap-0">
+        <nav aria-label="Fullscreen navigation" className="flex flex-col items-start gap-0.5 w-full">
           {MENU_ITEMS.map((item, index) => (
             <motion.a
               key={item.href}
               href={item.href}
               onClick={onClose}
-              initial={{ opacity: 0, y: 34 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.06 + index * 0.045, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="group flex w-full items-center justify-between border-b-2 border-hairline-neutral py-1.5 text-text-primary outline-none transition-colors hover:border-accent-color focus-visible:border-accent-color sm:py-2"
+              transition={{ delay: 0.04 + index * 0.04, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex w-full items-center justify-between py-1.5 sm:py-2 text-text-primary outline-none transition-colors"
             >
               <TextRoll
-                center={index % 2 === 0}
-                className="text-[clamp(2.5rem,8.7vw,7.2rem)] font-black uppercase leading-none tracking-normal text-text-primary transition-colors group-hover:text-accent-color"
+                center={false}
+                className="text-[clamp(1.8rem,5vw,4.5rem)] font-black uppercase tracking-tight text-text-primary transition-colors group-hover:text-accent-color"
               >
                 {item.label}
               </TextRoll>
-              <span className="ml-4 hidden rounded-full border-2 border-hairline-neutral px-3 py-1 text-xs font-semibold text-text-quiet transition-colors group-hover:border-accent-color group-hover:text-accent-color sm:inline-flex">
-                0{index + 1}
-              </span>
             </motion.a>
           ))}
         </nav>

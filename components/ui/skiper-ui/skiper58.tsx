@@ -71,7 +71,7 @@ const TextRoll: React.FC<{
     <motion.span
       initial="initial"
       whileHover="hovered"
-      className={cn("relative block overflow-hidden", className)}
+      className={cn("relative block overflow-hidden whitespace-nowrap", className)}
       style={{
         lineHeight: 0.92,
       }}
@@ -81,6 +81,8 @@ const TextRoll: React.FC<{
           const delay = center
             ? STAGGER * Math.abs(i - (children.length - 1) / 2)
             : STAGGER * i;
+
+          const charDisplay = l === " " ? "\u00A0" : l;
 
           return (
             <motion.span
@@ -99,7 +101,7 @@ const TextRoll: React.FC<{
               className="inline-block"
               key={i}
             >
-              {l}
+              {charDisplay}
             </motion.span>
           );
         })}
@@ -109,6 +111,8 @@ const TextRoll: React.FC<{
           const delay = center
             ? STAGGER * Math.abs(i - (children.length - 1) / 2)
             : STAGGER * i;
+
+          const charDisplay = l === " " ? "\u00A0" : l;
 
           return (
             <motion.span
@@ -127,7 +131,7 @@ const TextRoll: React.FC<{
               className="inline-block"
               key={i}
             >
-              {l}
+              {charDisplay}
             </motion.span>
           );
         })}

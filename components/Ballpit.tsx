@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import { Observer } from 'gsap/Observer';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   ACESFilmicToneMapping,
   AmbientLight,
@@ -105,19 +105,21 @@ class X {
       const elem = document.getElementById(this.#config.id);
       if (elem instanceof HTMLCanvasElement) {
         this.canvas = elem;
-      } else {
-        console.error('Three: Missing canvas or id parameter');
       }
-    } else {
-      console.error('Three: Missing canvas or id parameter');
     }
-    this.canvas!.style.display = 'block';
+    if (!this.canvas) {
+      throw new Error('Three: Missing valid canvas element');
+    }
+    this.canvas.style.display = 'block';
     const rendererOptions: WebGLRendererParameters = {
       canvas: this.canvas,
       powerPreference: 'high-performance',
       ...(this.#config.rendererOptions ?? {})
     };
     this.renderer = new WebGLRenderer(rendererOptions);
+    if (!this.renderer || !this.renderer.getContext()) {
+      throw new Error('WebGLRenderer: Context creation failed');
+    }
     this.renderer.outputColorSpace = SRGBColorSpace;
   }
 
@@ -252,7 +254,12 @@ class X {
   }
 
   #render() {
-    this.renderer.render(this.scene, this.camera);
+    try {
+      this.renderer.render(this.scene, this.camera);
+    } catch (error) {
+      console.warn('Ballpit render stopped after a WebGL error.', error);
+      this.#stopAnimation();
+    }
   }
 
   clear() {
@@ -853,30 +860,40 @@ const Ballpit: React.FC<BallpitProps> = ({ className = '', followCursor = true, 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const spheresInstanceRef = useRef<CreateBallpitReturn | null>(null);
   const [failed, setFailed] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    try {
-      spheresInstanceRef.current = createBallpit(canvas, {
-        followCursor,
-        ...props
-      });
-    } catch (error) {
-      console.warn('Ballpit disabled because WebGL renderer initialization failed.', error);
-      setFailed(true);
-    }
+    const timer = setTimeout(() => {
+      try {
+        spheresInstanceRef.current = createBallpit(canvas, {
+          followCursor,
+          ...props
+        });
+      } catch (error) {
+        console.warn('Ballpit disabled because WebGL renderer initialization failed.', error);
+        setFailed(true);
+      }
+    }, 64);
 
     return () => {
+      clearTimeout(timer);
       if (spheresInstanceRef.current) {
         spheresInstanceRef.current.dispose();
+        spheresInstanceRef.current = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mounted]);
 
-  if (failed) return null;
+  if (failed || !mounted) return null;
 
   return <canvas className={`${className} w-full h-full`} ref={canvasRef} />;
 };

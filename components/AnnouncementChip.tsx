@@ -30,12 +30,12 @@ export function AnnouncementChip() {
   const currentLabel = LABELS[currentLabelIndex];
 
   return (
-    <div className="inline-flex items-center gap-2.5 rounded-full border border-hairline-neutral/70 bg-background/55 px-3 py-1.5 shadow-[0_1px_10px_rgba(0,0,0,0.16)] backdrop-blur-md select-none">
+    <div className="inline-flex items-center gap-2.5 rounded-full border border-hairline-neutral/70 bg-background/55 px-4 py-2 shadow-[0_1px_10px_rgba(0,0,0,0.16)] backdrop-blur-md select-none">
       <span className="relative flex size-3 items-center justify-center">
         <span className="absolute size-3 rounded-full bg-accent-color/20 blur-[3px]" />
         <span className="relative size-2 rounded-full bg-accent-color shadow-[0_0_14px_var(--accent-glow)] animate-pulse" />
       </span>
-      <div className="relative flex items-center overflow-hidden text-left text-[11px] font-medium leading-none tracking-normal text-text-secondary">
+      <div className="relative flex items-center overflow-hidden text-left text-[11.5px] font-medium leading-normal tracking-normal text-text-secondary">
         <span className="invisible whitespace-nowrap">{longestLabel}</span>
         <TextRoll
           key={currentLabel}

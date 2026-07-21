@@ -268,9 +268,19 @@ export default function FaultyTerminal({
     const resolvedMouse = mouseReact && !coarse && !reduced;
     const resolvedDpr = dpr ?? Math.min(window.devicePixelRatio || 1, coarse ? 1.25 : 1.75);
 
-    const renderer = new Renderer({ dpr: resolvedDpr, alpha: true });
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ dpr: resolvedDpr, alpha: true });
+    } catch (error) {
+      console.warn("FaultyTerminal disabled because WebGL renderer initialization failed.", error);
+      return;
+    }
     rendererRef.current = renderer;
     const gl = renderer.gl;
+    if (!gl) {
+      console.warn("FaultyTerminal disabled because WebGL context is unavailable.");
+      return;
+    }
     gl.clearColor(0, 0, 0, 0);
 
     const geometry = new Triangle(gl);
@@ -342,7 +352,12 @@ export default function FaultyTerminal({
         mouseUniform[1] = smoothMouse.y;
       }
 
-      renderer.render({ scene: mesh });
+      try {
+        renderer.render({ scene: mesh });
+      } catch (error) {
+        console.warn("FaultyTerminal render stopped after a WebGL error.", error);
+        cancelAnimationFrame(rafRef.current);
+      }
     };
 
     rafRef.current = requestAnimationFrame(update);

@@ -114,10 +114,15 @@ export function DeviceFrame({
           height: "490px",
         }}
         animate={{
-          rotateX: -mousePos.y * 8,
-          rotateY: mousePos.x * 8,
+          rotateX: [-3 - mousePos.y * 6, 3 - mousePos.y * 6, -3 - mousePos.y * 6],
+          rotateY: [-5 + mousePos.x * 6, 5 + mousePos.x * 6, -5 + mousePos.x * 6],
+          y: [-4, 4, -4],
         }}
-        transition={{ type: "spring", stiffness: 80, damping: 22 }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         className="relative"
       >
         {/* Back Plate (Z = -6px) */}

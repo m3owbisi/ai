@@ -21,11 +21,15 @@ export function SiteFooter() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <CosmicButton href={PLAY_STORE_URL} external icon={<img src="https://cdn.prod.website-files.com/67e36aa2068f30979d6c5e1f/68ba60758094c8a92ad7566e_7db42ca6494f3a8a8f88cb1bbc4e9d3c_android.svg" alt="Android" className="size-4 object-contain" />} size="sm" className="text-xs">
-              Download Equal
+            <CosmicButton href={PLAY_STORE_URL} external icon={<img src="https://cdn.prod.website-files.com/67e36aa2068f30979d6c5e1f/68ba60758094c8a92ad7566e_7db42ca6494f3a8a8f88cb1bbc4e9d3c_android.svg" alt="Android" className="size-[18px] object-contain" />} size="sm" className="text-xs">
+              Download for Android
             </CosmicButton>
-            <CosmicButton href={IOS_WAITLIST_URL} external icon={<img src="https://cdn.prod.website-files.com/67e36aa2068f30979d6c5e1f/68ba6075b6f5660be18bbbdf_f37bfbd98fdd5d913fc34a92c43dc6ec_apple.svg" alt="Apple" className="size-4 object-contain" />} variant="secondary" size="sm" className="text-xs">
-              Join the waitlist
+            <CosmicButton href={IOS_WAITLIST_URL} external icon={<img src="https://cdn.prod.website-files.com/67e36aa2068f30979d6c5e1f/68ba6075b6f5660be18bbbdf_f37bfbd98fdd5d913fc34a92c43dc6ec_apple.svg" alt="Apple" className="size-[17px] object-contain" />} variant="secondary" size="sm" className="text-xs" badge={
+              <span className="rounded border-2 border-hairline-neutral/70 bg-surface-2 px-1.5 py-0.5 text-[10px] font-medium tracking-tight text-text-quiet transition-colors group-hover:bg-surface-1">
+                Waitlist
+              </span>
+            }>
+              iOS coming soon
             </CosmicButton>
           </div>
         </div>

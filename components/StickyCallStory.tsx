@@ -49,24 +49,21 @@ export function StickyCallStory() {
     const isActive = activeId === node.id;
 
     return (
-      <div key={node.id} className="relative flex size-16 shrink-0 flex-col items-center justify-center pointer-events-auto">
+      <div key={node.id} className="relative grid size-16 shrink-0 place-items-center pointer-events-auto">
         <div
-          className={`flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-all duration-500 ${
+          className={`grid size-14 shrink-0 place-items-center overflow-hidden rounded-full border-2 transition-all duration-500 ${
             isActive
-              ? "border-accent-color bg-accent-color/15 shadow-[0_0_18px_var(--accent-glow)]"
-              : "border-hairline-neutral bg-surface-1/85"
+              ? "bg-accent-color/20 shadow-[0_0_20px_var(--accent-glow)] scale-110"
+              : "bg-surface-1/90 scale-100"
           }`}
         >
           <img
             src={node.image}
-            alt=""
+            alt={node.label}
             draggable={false}
-            className={`aspect-square h-full w-full rounded-full object-cover transition-transform duration-500 ${isActive ? "scale-110" : "scale-100"}`}
+            className="block aspect-square size-full rounded-full object-cover transition-transform duration-300"
           />
         </div>
-        <span className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${isActive ? "text-accent-color font-semibold" : "text-text-quiet"}`}>
-          {node.label}
-        </span>
       </div>
     );
   });
@@ -278,10 +275,10 @@ export function StickyCallStory() {
       gsap.set(phoneRef.current, {
         x: deltas.x,
         y: deltas.y,
-        scale: 1.38,
-        rotateX: 24,
-        rotateY: -35,
-        rotateZ: -372,
+        scale: 1.26,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: -360,
       });
 
       // 1. Flight transition timeline (Scroll 1 -> Scroll 2)
@@ -318,14 +315,7 @@ export function StickyCallStory() {
         y: 15,
         pointerEvents: "none",
         duration: 0.25,
-      }, 0);
-
-      // Scroll-parallax shift for background waves
-      transitionTl.to("#bg-waves-wrapper", {
-        x: -120,
-        opacity: 0.45,
-        duration: 1.0,
-      }, 0);
+      }, 0);
 
       transitionTl.to(".hero-phone-orbit-layer", {
         opacity: 0,
@@ -372,13 +362,7 @@ export function StickyCallStory() {
         scale: 0.85,
         rotateY: -20,
         ease: "power1.in",
-      });
-
-      exitTl.to("#bg-waves-wrapper", {
-        x: -300, // shift waves further left on exit
-        opacity: 0,
-        ease: "power1.in",
-      }, 0);
+      });
 
       // 2. Pinned Call Story timeline
       ScrollTrigger.create({

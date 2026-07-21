@@ -104,32 +104,29 @@ export function CosmicButton({
       type={href ? undefined : "button"}
       target={href && external ? "_blank" : undefined}
       rel={href && external ? "noreferrer" : undefined}
-      whileHover={{ y: -1 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -1.5, scale: 1.02 }}
+      whileTap={{ scale: 0.97 }}
       className={cn(
-        "group relative isolate inline-flex shrink-0 items-center justify-center rounded-full text-sm font-semibold tracking-tight outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent-color/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        size === "md" ? "h-13" : "h-11",
-        variant === "primary"
-          ? "shadow-[0_0_0_4px_var(--accent-glow),0_18px_36px_rgba(0,0,0,0.18)] hover:shadow-[0_0_0_5px_var(--accent-glow),0_22px_42px_rgba(0,0,0,0.24)]"
-          : "shadow-[0_0_0_2px_rgba(0,0,0,0.06)] hover:shadow-[0_0_0_4px_var(--accent-glow)]",
+        "group relative isolate inline-flex shrink-0 items-center justify-center rounded-full text-sm font-bold tracking-tight outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent-color/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        size === "md" ? "h-14" : "h-12",
         className,
       )}
     >
       <span
         className={cn(
-          "relative z-10 flex h-full w-full items-center justify-center gap-2 rounded-full border-[3px] px-5 transition-colors duration-300",
+          "relative z-10 flex h-full w-full items-center justify-center gap-2.5 rounded-full border px-6 transition-all duration-300",
           variant === "primary"
-            ? "border-accent-color bg-accent-color text-black shadow-[inset_0_0_0_2px_rgba(255,255,255,0.34)] light:border-accent-color light:text-white"
-            : "border-hairline-neutral bg-background/82 text-text-primary backdrop-blur-md group-hover:border-accent-color/70 group-hover:bg-surface-2/92",
+            ? "border-accent-color bg-accent-color text-black shadow-[0_4px_0_0_#007a2c,0_0_24px_var(--accent-glow),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-[0_2px_0_0_#007a2c,0_0_32px_var(--accent-glow),inset_0_1px_0_rgba(255,255,255,0.5)] hover:translate-y-[2px] light:text-white"
+            : "border-hairline-neutral bg-background/88 text-text-primary backdrop-blur-md hover:border-accent-color hover:bg-surface-2/95 shadow-[0_4px_0_0_var(--hairline-neutral)] hover:shadow-[0_2px_0_0_var(--hairline-neutral)] hover:translate-y-[2px]",
         )}
       >
-        <CosmicButtonText>{children}</CosmicButtonText>
-        {badge}
         {icon && (
-          <span className="flex size-6 items-center justify-center rounded-full bg-black/12 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-[.cosmic-secondary]:bg-surface-2">
+          <span className="flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110">
             {icon}
           </span>
         )}
+        <CosmicButtonText>{children}</CosmicButtonText>
+        {badge}
       </span>
     </Component>
   );

@@ -1,7 +1,7 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { DeviceFrame } from "./DeviceFrame";
+import SplitOrbit from "./HeroOrbitImages";
 import { scenarios } from "@/data/call-scenarios";
 
 const HERO_ORBIT_NODES = [
@@ -13,43 +13,61 @@ const HERO_ORBIT_NODES = [
   { id: "auto", label: "Auto", image: "/orbit-nodes/auto.png" },
 ];
 
-function MobileHeroPhone() {
-  const scenario = scenarios.pitcher;
-
+function OrbitIcon({ node }: { node: (typeof HERO_ORBIT_NODES)[number] }) {
   return (
-    <div className="relative flex h-[520px] w-full items-center justify-center lg:hidden">
-      <div className="mobile-call-orbit" aria-hidden="true">
-        {HERO_ORBIT_NODES.map((node, index) => (
-          <div
-            key={node.id}
-            className="mobile-call-orbit-node"
-            style={{ "--orbit-index": index, "--orbit-total": HERO_ORBIT_NODES.length } as CSSProperties}
-          >
-            <div className="mobile-call-orbit-icon">
-              <img src={node.image} alt="" draggable={false} />
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="relative z-10 scale-[0.88] pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
-        <DeviceFrame
-          layout="hero"
-          scenario={scenario}
-          isPlaying={false}
-          callDuration={0}
-          onAccept={() => {}}
-          onDecline={() => {}}
+    <div className="grid size-[72px] shrink-0 place-items-center rounded-full">
+      <div className="grid size-[62px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-hairline-neutral bg-surface-1/90 shadow-[0_0_16px_var(--accent-glow)]">
+        <img
+          src={node.image}
+          alt={node.label}
+          draggable={false}
+          className="block aspect-square size-full rounded-full object-cover"
         />
       </div>
     </div>
   );
 }
 
+function ResponsiveHeroPhone() {
+  const scenario = scenarios.pitcher;
+  const orbitItems = HERO_ORBIT_NODES.map((node) => <OrbitIcon key={node.id} node={node} />);
+
+  return (
+    <div className="relative flex h-[620px] w-full items-center justify-center lg:hidden">
+      <SplitOrbit
+        items={orbitItems}
+        baseWidth={620}
+        radiusX={224}
+        radiusY={88}
+        rotation={-22}
+        duration={24}
+        itemSize={72}
+        showPath
+        pathColor="var(--orbit-path)"
+        pathWidth={2.25}
+        className="h-[620px] w-[min(118vw,620px)]"
+        phoneContent={
+          <div className="relative scale-[0.9] pointer-events-auto sm:scale-100" style={{ transformStyle: "preserve-3d" }}>
+            <DeviceFrame
+              layout="hero"
+              scenario={scenario}
+              isPlaying={false}
+              callDuration={0}
+              onAccept={() => {}}
+              onDecline={() => {}}
+            />
+          </div>
+        }
+      />
+    </div>
+  );
+}
+
 export function HeroCallStage() {
   return (
-    <div className="relative z-10 flex h-[520px] min-h-[520px] w-full max-w-[760px] select-none items-center justify-center hero-orbit-stage pointer-events-none md:h-[620px] md:min-h-[620px]">
+    <div className="relative z-10 flex h-[620px] min-h-[620px] w-full max-w-[760px] select-none items-center justify-center hero-orbit-stage pointer-events-none">
       <div className="absolute z-0 h-[min(74vw,350px)] w-[min(74vw,350px)] rounded-full bg-accent-glow blur-[64px] pointer-events-none md:blur-[80px]" />
-      <MobileHeroPhone />
+      <ResponsiveHeroPhone />
       <div className="relative hidden h-[min(104vw,490px)] max-h-[490px] w-[min(52vw,245px)] max-w-[245px] items-center justify-center lg:flex">
         <div id="hero-phone-placeholder" className="h-full w-full rounded-[3rem] opacity-0" />
       </div>
